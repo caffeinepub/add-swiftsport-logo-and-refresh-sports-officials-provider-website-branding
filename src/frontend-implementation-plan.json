@@ -1,0 +1,132 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "SwiftSport: contact details refresh, chatbot lead capture UI, stronger copy, and new marketing images",
+  "requirements": [
+    {
+      "id": "REQ-4",
+      "summary": "Replace all site contact details (display, mailto/tel links, copy-to-clipboard, and prefilled email actions) with swiftsports1512@gmail.com and 8431680623.",
+      "acceptanceCriteria": [
+        "The Contact section email card shows swiftsports1512@gmail.com and its copy button copies swiftsports1512@gmail.com.",
+        "The Contact section phone card shows 8431680623 (in a readable formatted display is OK) and its copy button copies 8431680623.",
+        "Any tel: link uses the correct number (e.g., tel:8431680623 or tel:+918431680623), and any mailto: link uses swiftsports1512@gmail.com.",
+        "The footer contact email/phone display and links are updated to the same values.",
+        "The “Send via Email” action in the contact section sends to swiftsports1512@gmail.com."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/marketing/ContactLeadSection.tsx",
+          "operation": "modify",
+          "description": "Update displayed email/phone, mailto: and tel: links, and copy-to-clipboard values to swiftsports1512@gmail.com and 8431680623; update the “Send via Email” mailto target and keep prefilled subject/body intact."
+        },
+        {
+          "path": "frontend/src/components/layout/SiteFooter.tsx",
+          "operation": "modify",
+          "description": "Update footer Contact email/phone display text and mailto:/tel: links to swiftsports1512@gmail.com and 8431680623."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Add a floating chatbot-style lead-capture widget on the landing page to collect referee requirements and submit them with a success confirmation and reference identifier.",
+      "acceptanceCriteria": [
+        "A chat widget is available on the landing page (e.g., floating button) and can be opened/closed without navigating away.",
+        "The chatbot flow collects at minimum: sport, number of officials required, date (or date/time), location, competition level, and the requester’s name + phone or email.",
+        "The user can review and submit the captured information at the end of the chat flow.",
+        "After submission, the UI shows a clear success confirmation and a reference identifier (or timestamp) for the request.",
+        "User-facing text in the chatbot is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/lead/ChatbotLeadWidget.tsx",
+          "operation": "create",
+          "description": "Create a self-contained floating chatbot widget UI (open/close, message-style steps) that collects: sport, number of officials, date/time, location, competition level, and requester name + phone/email; include a review step and submit action; on success show confirmation plus a generated reference identifier/timestamp; on failure show an error state; display the chatbot avatar from frontend/public/assets/generated/swiftsport-chatbot-avatar.dim_256x256.png with English alt text. Use core-infrastructure’s backend connection via the existing useActor hook to call the backend submission capability (when available) without introducing third-party services. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "modify",
+          "description": "Wire the ChatbotLeadWidget into the landing page so it is available without navigation (floating overlay present across the page content). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Add any minimal global styles needed for the chatbot overlay behavior (e.g., safe stacking/z-index and motion preferences) while preserving existing theme variables; keep user-facing text in English."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Refresh marketing copy across hero/services/process/contact to be more conversion-focused while staying accurate for a sports officials provider.",
+      "acceptanceCriteria": [
+        "Hero section headline/subheadline and CTA labels are updated with stronger marketing language (English).",
+        "Services and/or process section copy is refreshed with clearer benefits and outcomes (e.g., reliability, certified officials, fast replacements).",
+        "Contact section copy encourages action and aligns with the updated contact details.",
+        "All updated copy remains consistent in tone and does not introduce new product offerings not present on the site."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/marketing/HeroSection.tsx",
+          "operation": "modify",
+          "description": "Strengthen hero headline, subheadline, and CTA labels with more conversion-focused English copy while staying accurate to officiating services; keep existing scroll actions intact."
+        },
+        {
+          "path": "frontend/src/components/marketing/ServicesSection.tsx",
+          "operation": "modify",
+          "description": "Refresh services section headings/descriptions in English to emphasize outcomes (reliability, certified officials, fast replacements) without adding new offerings."
+        },
+        {
+          "path": "frontend/src/components/marketing/ProcessSection.tsx",
+          "operation": "modify",
+          "description": "Update process step titles/descriptions and CTA copy to be clearer and more benefit-driven in English while remaining accurate."
+        },
+        {
+          "path": "frontend/src/components/marketing/ContactLeadSection.tsx",
+          "operation": "modify",
+          "description": "Update contact section headline/supporting copy and helper text in English to encourage action and align with the updated email/phone details."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Add and integrate new static marketing images (hero, supporting section, chatbot avatar) as responsive frontend assets with English alt text.",
+      "acceptanceCriteria": [
+        "New images are added under frontend/public/assets/generated and are referenced directly by the frontend.",
+        "At least one prominent image is displayed in/near the hero section, and at least one supporting image is displayed in another section (e.g., services/process/contact).",
+        "Images are responsive (look good on mobile and desktop) and do not cause layout shift issues.",
+        "All images have appropriate alt text in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/swiftsport-hero.dim_1600x900.png",
+          "operation": "create",
+          "description": "Add generated hero marketing image asset at frontend/public/assets/generated/swiftsport-hero.dim_1600x900.png (static asset; not served from backend)."
+        },
+        {
+          "path": "frontend/public/assets/generated/swiftsport-support-1.dim_1200x800.png",
+          "operation": "create",
+          "description": "Add generated supporting section image asset at frontend/public/assets/generated/swiftsport-support-1.dim_1200x800.png (static asset; not served from backend)."
+        },
+        {
+          "path": "frontend/public/assets/generated/swiftsport-chatbot-avatar.dim_256x256.png",
+          "operation": "create",
+          "description": "Add generated chatbot avatar/mascot icon asset at frontend/public/assets/generated/swiftsport-chatbot-avatar.dim_256x256.png (static asset; not served from backend; should support transparent background)."
+        },
+        {
+          "path": "frontend/src/components/marketing/HeroSection.tsx",
+          "operation": "modify",
+          "description": "Integrate the hero image frontend/public/assets/generated/swiftsport-hero.dim_1600x900.png into the hero section with responsive sizing and reserved space to avoid layout shift; include English alt text."
+        },
+        {
+          "path": "frontend/src/components/marketing/ServicesSection.tsx",
+          "operation": "modify",
+          "description": "Add the supporting image frontend/public/assets/generated/swiftsport-support-1.dim_1200x800.png to a supporting area of the services section (or its existing gradient callout) with responsive layout and English alt text; ensure it doesn’t cause layout shift issues."
+        },
+        {
+          "path": "frontend/src/components/lead/ChatbotLeadWidget.tsx",
+          "operation": "modify",
+          "description": "Use the chatbot avatar image frontend/public/assets/generated/swiftsport-chatbot-avatar.dim_256x256.png in the widget UI (e.g., header/bot messages) with English alt text and responsive sizing. Verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

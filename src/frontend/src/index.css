@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.75rem;
+        /* Sports-inspired palette: vibrant green primary, energetic orange accent */
+        --background: 0.99 0 0;
+        --foreground: 0.15 0 0;
+        --card: 1 0 0;
+        --card-foreground: 0.15 0 0;
+        --popover: 1 0 0;
+        --popover-foreground: 0.15 0 0;
+        /* Vibrant sports green */
+        --primary: 0.55 0.18 145;
+        --primary-foreground: 0.99 0 0;
+        /* Light neutral */
+        --secondary: 0.96 0.01 145;
+        --secondary-foreground: 0.15 0 0;
+        --muted: 0.96 0.01 145;
+        --muted-foreground: 0.50 0 0;
+        /* Energetic orange accent */
+        --accent: 0.72 0.18 45;
+        --accent-foreground: 0.99 0 0;
+        --destructive: 0.58 0.24 27;
+        --destructive-foreground: 0.99 0 0;
+        --border: 0.90 0.01 145;
+        --input: 0.90 0.01 145;
+        --ring: 0.55 0.18 145;
+        --chart-1: 0.55 0.18 145;
+        --chart-2: 0.72 0.18 45;
+        --chart-3: 0.45 0.15 200;
+        --chart-4: 0.65 0.20 85;
+        --chart-5: 0.60 0.16 280;
+    }
+
+    .dark {
+        --background: 0.12 0.01 145;
+        --foreground: 0.98 0 0;
+        --card: 0.16 0.01 145;
+        --card-foreground: 0.98 0 0;
+        --popover: 0.18 0.01 145;
+        --popover-foreground: 0.98 0 0;
+        /* Bright sports green for dark mode */
+        --primary: 0.65 0.20 145;
+        --primary-foreground: 0.12 0.01 145;
+        --secondary: 0.20 0.01 145;
+        --secondary-foreground: 0.98 0 0;
+        --muted: 0.22 0.01 145;
+        --muted-foreground: 0.65 0 0;
+        /* Bright orange accent for dark mode */
+        --accent: 0.75 0.20 45;
+        --accent-foreground: 0.12 0.01 145;
+        --destructive: 0.65 0.22 27;
+        --destructive-foreground: 0.98 0 0;
+        --border: 0.25 0.01 145;
+        --input: 0.25 0.01 145;
+        --ring: 0.65 0.20 145;
+        --chart-1: 0.65 0.20 145;
+        --chart-2: 0.75 0.20 45;
+        --chart-3: 0.55 0.18 200;
+        --chart-4: 0.70 0.22 85;
+        --chart-5: 0.65 0.18 280;
+    }
+
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+        font-feature-settings: "rlig" 1, "calt" 1;
+    }
+}
+
+@layer base {
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-bold tracking-tight;
+    }
+    
+    h1 {
+        @apply text-4xl md:text-5xl lg:text-6xl;
+    }
+    
+    h2 {
+        @apply text-3xl md:text-4xl lg:text-5xl;
+    }
+    
+    h3 {
+        @apply text-2xl md:text-3xl;
+    }
+}
+
+/* Chatbot widget z-index and smooth animations */
+@layer utilities {
+    .shadow-soft {
+        box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.1), 0 4px 16px -4px rgba(0, 0, 0, 0.08);
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "frontend/index.html": "HTML entry point with SwiftSport favicon, title, and meta description for the sports officials provider website.",
+  "frontend/src/index.css": "Global styles with sports-inspired OKLCH color system and added utility class for chatbot widget shadow effects.",
+  "frontend/tailwind.config.js": "Tailwind configuration with extended theme including custom fonts, colors, shadows, and animations for the sports brand aesthetic.",
+  "frontend/src/App.tsx": "Main application component that renders the site header, landing page content, and footer in a flex layout.",
+  "frontend/src/components/branding/Logo.tsx": "Reusable SwiftSport logo component with size variants (sm, md, lg) for consistent branding across the site.",
+  "frontend/src/components/layout/SiteHeader.tsx": "Sticky header with SwiftSport logo, responsive navigation menu, and smooth scroll-to-section functionality for desktop and mobile.",
+  "frontend/src/components/layout/SiteFooter.tsx": "Site footer with updated contact details (swiftsports1512@gmail.com and 8431680623), branding, quick links, availability hours, and Caffeine.ai attribution with UTM tracking.",
+  "frontend/src/pages/LandingPage.tsx": "Landing page component that composes hero, services, process, contact sections, and the new chatbot lead widget into a cohesive marketing page.",
+  "frontend/src/components/marketing/HeroSection.tsx": "Hero section with stronger conversion-focused copy (\"Certified Officials, Delivered Fast\"), integrated hero image, updated statistics, and prominent CTAs for booking officials.",
+  "frontend/src/components/marketing/ServicesSection.tsx": "Services section with refreshed benefit-driven copy emphasizing reliability, certified officials, and fast replacements, plus integrated supporting image in the sports coverage card.",
+  "frontend/src/components/marketing/ProcessSection.tsx": "Five-step process section with updated conversion-focused copy emphasizing speed, reliability, and ease of use for requesting officials.",
+  "frontend/src/components/marketing/ContactLeadSection.tsx": "Contact section with updated email (swiftsports1512@gmail.com) and phone (8431680623), featuring copy-to-clipboard functionality, stronger conversion-focused copy, and quick request form that opens email client.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for submitting referee requests and fetching all requests from the backend, with proper error handling and cache invalidation.",
+  "frontend/src/components/lead/ChatbotLeadWidget.tsx": "Floating chatbot widget that guides users through a multi-step form to collect referee request details (sport, officials count, date/time, location, level, contact info), displays review screen, submits to backend, and shows success confirmation with reference ID or error state."
+}

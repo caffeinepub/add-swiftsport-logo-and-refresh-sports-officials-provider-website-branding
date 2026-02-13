@@ -1,2 +1,3 @@
-# add-swiftsport-logo-and-refresh-sports-officials-provider-website-branding
-Exported from Caffeine project: Add SwiftSport logo and refresh sports officials provider website branding
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`
