@@ -1,65 +1,24 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
-  "summary": "Update the sports-officials provider website with refreshed branding, add SwiftSport logo assets, and enhance marketing/lead-capture (contact info + chatbot) to attract and collect referee requirements.",
+  "projectStateVersion": 3,
+  "summary": "New project",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Hero marketing image: dynamic sports officiating scene illustration/photo-style with modern sporty lighting (swiftsport-hero.dim_1600x900.png)\n- Supporting section image: referee whistle + clipboard / match readiness visual, clean modern style (swiftsport-support-1.dim_1200x800.png)\n- Chatbot avatar/mascot icon: friendly sports-official themed assistant, flat vector style, transparent background (swiftsport-chatbot-avatar.dim_256x256.png)",
   "existing_features": [
     {
-      "id": "feature-add-the-swiftsport-logo-as-a-static-frontend-asset-and-apply-it-consistently-across-the-site-e-g-top-navigation-header-footer-and-browser-tab-favicon-where-applicable",
-      "title": "Add the SwiftSport logo as a static frontend asset and apply it consistently across the site (e.g., top navigation/header, footer, and browser tab favicon where applicable).",
-      "reqIds": [
-        "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-refresh-the-sports-officials-provider-website-content-and-layout-to-reflect-updated-branding-with-all-user-facing-text-in-english",
-      "title": "Refresh the sports officials provider website content and layout to reflect updated branding, with all user-facing text in English.",
+      "id": "feature-update-frontend-live-urls-md-so-it-can-be-used-as-the-single-source-of-truth-after-going-live-document-the-final-custom-domain-url-https-swiftsportshub-com-and-the-fallback-ic-boundary-url-and-provide-clear-instructions-to-replace-placeholders-frontend-canister-id-backend-canister-id-and-update-the-status-fields-after-deployment-domain-activation",
+      "title": "Update frontend/LIVE_URLS.md so it can be used as the single source of truth after going live: document the final custom domain URL (https://swiftsportshub.com) and the fallback IC boundary URL, and provide clear instructions to replace placeholders ([FRONTEND_CANISTER_ID], [BACKEND_CANISTER_ID]) and update the status fields after deployment/domain activation.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-implement-a-coherent-visual-theme-for-the-refreshed-site-colors-typography-spacing-and-component-styling-that-aligns-with-a-modern-sports-brand-aesthetic-and-apply-it-consistently-across-all-pages-sections-avoid-a-blue-purple-default-palette-unless-required-by-existing-brand-assets",
-      "title": "Implement a coherent visual theme for the refreshed site (colors, typography, spacing, and component styling) that aligns with a modern sports brand aesthetic, and apply it consistently across all pages/sections. Avoid a blue+purple default palette unless required by existing brand assets.",
+      "id": "feature-ensure-all-absolute-url-generation-in-the-frontend-that-may-reference-the-public-site-domain-uses-the-centralized-utility-in-frontend-src-utils-publicsitebaseurl-ts-and-thus-respects-vite-public-site-base-url-https-swiftsportshub-com-rather-than-hardcoding-swiftsportshub-com-or-using-window-location-origin-directly",
+      "title": "Ensure all absolute URL generation in the frontend that may reference the public site domain uses the centralized utility in frontend/src/utils/publicSiteBaseUrl.ts (and thus respects VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com) rather than hardcoding swiftsportshub.com or using window.location.origin directly.",
       "reqIds": [
         "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-all-displayed-and-linked-contact-details-across-the-site-to-use-email-swiftsports1512-gmail-com-and-phone-number-8431680623-including-mailto-and-tel-links-copy-to-clipboard-values-and-any-prefilled-email-actions",
-      "title": "Update all displayed and linked contact details across the site to use email swiftsports1512@gmail.com and phone number 8431680623 (including mailto: and tel: links, copy-to-clipboard values, and any prefilled email actions).",
-      "reqIds": [
-        "REQ-4"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-an-on-site-chatbot-style-lead-capture-ui-that-collects-sports-referee-requirements-e-g-sport-number-of-referees-officials-needed-date-time-location-competition-level-and-requester-contact-details-and-allows-the-user-to-submit-the-request",
-      "title": "Add an on-site chatbot-style lead-capture UI that collects sports referee requirements (e.g., sport, number of referees/officials needed, date/time, location, competition level, and requester contact details) and allows the user to submit the request.",
-      "reqIds": [
-        "REQ-5"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-strengthen-site-marketing-copy-headlines-subheadlines-service-descriptions-and-ctas-to-be-more-conversion-focused-and-attention-grabbing-while-staying-accurate-for-a-sports-officials-provider",
-      "title": "Strengthen site marketing copy (headlines, subheadlines, service descriptions, and CTAs) to be more conversion-focused and attention-grabbing while staying accurate for a sports officials provider.",
-      "reqIds": [
-        "REQ-7"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-attention-grabbing-marketing-images-to-the-landing-page-and-integrate-them-as-static-assets-not-served-from-the-backend-ensuring-they-match-the-existing-swiftsport-branding-and-overall-theme",
-      "title": "Add attention-grabbing marketing images to the landing page and integrate them as static assets (not served from the backend), ensuring they match the existing SwiftSport branding and overall theme.",
-      "reqIds": [
-        "REQ-8"
       ],
       "version": 1
     }
@@ -67,39 +26,20 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Add the SwiftSport logo to the sports-officials provider website and refresh/update the site to match new branding.",
+      "summary": "Connect a custom domain to the deployed app",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-2",
-      "summary": "Add contact details to the site: email swiftsports1512@gmail.com and phone number 8431680623.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-3",
-      "summary": "Add a chatbot to capture/collect the required sports referees (lead capture form via chat).",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "Add strong marketing lines and attention-grabbing images across the site to improve appeal and conversions.",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-7",
-      "summary": "Persist submitted chatbot lead-capture requests in the Motoko backend so they are not lost on refresh, and expose backend methods to create and list submitted requests for internal verification/testing.",
+      "summary": "Fix and complete the mainnet + custom domain deployment documentation in frontend/DEPLOYMENT.md by replacing the broken/unfinished code fence with a fully formatted, step-by-step guide that includes: deploying backend+frontend to IC mainnet, where/how to set VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com, and the steps needed to connect the custom domain swiftsportshub.com (DNS + IC domain configuration) so the site is reachable at https://swiftsportshub.com.",
       "reqIds": [
-        "REQ-6"
+        "REQ-1"
       ],
       "status": "pending"
     }
   ],
-  "gameProjectType": "none",
-  "projectName": "Add SwiftSport logo and refresh sports officials provider website branding",
+  "projectName": "SwiftSport Hub",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

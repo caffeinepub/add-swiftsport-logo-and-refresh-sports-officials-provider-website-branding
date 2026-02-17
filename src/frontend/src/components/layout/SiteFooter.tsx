@@ -1,11 +1,10 @@
 import { Logo } from '../branding/Logo';
 import { Mail, Phone, MapPin, Heart } from 'lucide-react';
+import { getPublicSiteHostname } from '@/utils/publicSiteBaseUrl';
 
 export function SiteFooter() {
   const currentYear = new Date().getFullYear();
-  const appIdentifier = encodeURIComponent(
-    typeof window !== 'undefined' ? window.location.hostname : 'swiftsport-app'
-  );
+  const appIdentifier = encodeURIComponent(getPublicSiteHostname());
 
   return (
     <footer className="border-t bg-muted/30">

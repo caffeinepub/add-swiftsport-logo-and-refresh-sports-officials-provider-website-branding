@@ -1,13 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Update SwiftSport contact details, add a chatbot-style lead capture flow for referee requirements with backend persistence, and improve landing-page marketing copy and visuals.
+**Goal:** Finalize mainnet + custom domain deployment documentation and ensure the frontend consistently uses a centralized public-site base URL for absolute link generation.
 
 **Planned changes:**
-- Update all email/phone displays, mailto/tel links, copy-to-clipboard values, and “Send via Email” actions to use swiftsports1512@gmail.com and 8431680623 across the site (including footer/contact areas).
-- Add a floating, open/close chatbot-style lead-capture widget on the landing page to collect referee request details (sport, number of officials, date/time, location, competition level, requester name + phone/email), allow review, and submit.
-- Persist submitted chatbot requests in the existing Motoko backend (single actor), including createdAt, and add backend methods to create and list stored requests for verification/testing.
-- Refresh marketing copy (hero, services/process, CTAs, contact prompts) to be more conversion-focused while staying accurate to a sports officials provider.
-- Add and integrate new static marketing images (hero + supporting section) and a chatbot avatar icon from frontend public assets with responsive layout and English alt text.
+- Replace the broken/unfinished markdown code fence in `frontend/DEPLOYMENT.md` with a complete, step-by-step guide for deploying backend + frontend to IC mainnet, setting `VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com` (normalized/no trailing slash), and connecting the custom domain `swiftsportshub.com` (DNS + IC-side domain configuration) so the site is reachable at `https://swiftsportshub.com`.
+- Update `frontend/LIVE_URLS.md` to be the single source of truth post-launch by documenting the final custom domain URL and the fallback IC boundary URL, and adding instructions to replace `[FRONTEND_CANISTER_ID]` / `[BACKEND_CANISTER_ID]` placeholders and update status fields after deployment/domain activation.
+- Refactor any frontend absolute URL generation that depends on the public site domain to use `frontend/src/utils/publicSiteBaseUrl.ts` (respecting `VITE_PUBLIC_SITE_BASE_URL`) rather than hardcoding `swiftsportshub.com` or relying on `window.location.origin`.
 
-**User-visible outcome:** Visitors see the updated SwiftSport contact info everywhere, can submit referee requirement requests through an on-page chatbot and receive a confirmation/reference, and experience stronger marketing copy with new attention-grabbing images on the landing page.
+**User-visible outcome:** Maintainers can follow complete docs to deploy to IC mainnet, configure `swiftsportshub.com` as the production domain, and the app generates absolute URLs based on the configured public site base URL.

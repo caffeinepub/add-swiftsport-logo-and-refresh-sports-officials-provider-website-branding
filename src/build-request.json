@@ -1,133 +1,73 @@
 {
   "kind": "build_request",
-  "title": "Add contact details, chatbot lead capture, and stronger marketing copy + images",
+  "title": "Connect swiftsportshub.com Custom Domain and Finalize Deployment Docs",
+  "projectName": "SwiftSport Hub",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-4",
-      "text": "Update all displayed and linked contact details across the site to use email swiftsports1512@gmail.com and phone number 8431680623 (including mailto: and tel: links, copy-to-clipboard values, and any prefilled email actions).",
+      "id": "REQ-1",
+      "text": "Fix and complete the mainnet + custom domain deployment documentation in frontend/DEPLOYMENT.md by replacing the broken/unfinished code fence with a fully formatted, step-by-step guide that includes: deploying backend+frontend to IC mainnet, where/how to set VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com, and the steps needed to connect the custom domain swiftsportshub.com (DNS + IC domain configuration) so the site is reachable at https://swiftsportshub.com.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-4"
         ],
         "quotes": [
-          "Please add email - swiftsports1512@gmail.com and contact number - 8431680623."
+          "Yes"
         ]
       },
       "acceptanceCriteria": [
-        "The Contact section email card shows swiftsports1512@gmail.com and its copy button copies swiftsports1512@gmail.com.",
-        "The Contact section phone card shows 8431680623 (in a readable formatted display is OK) and its copy button copies 8431680623.",
-        "Any tel: link uses the correct number (e.g., tel:8431680623 or tel:+918431680623), and any mailto: link uses swiftsports1512@gmail.com.",
-        "The footer contact email/phone display and links are updated to the same values.",
-        "The “Send via Email” action in the contact section sends to swiftsports1512@gmail.com."
+        "frontend/DEPLOYMENT.md contains no broken or unfinished markdown code fences.",
+        "frontend/DEPLOYMENT.md includes explicit instructions to set VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com (noting normalization/no trailing slash).",
+        "frontend/DEPLOYMENT.md includes explicit, actionable steps for custom domain setup for swiftsportshub.com (including DNS records and the IC-side domain configuration steps)."
       ]
     },
     {
-      "id": "REQ-5",
-      "text": "Add an on-site chatbot-style lead-capture UI that collects sports referee requirements (e.g., sport, number of referees/officials needed, date/time, location, competition level, and requester contact details) and allows the user to submit the request.",
+      "id": "REQ-2",
+      "text": "Update frontend/LIVE_URLS.md so it can be used as the single source of truth after going live: document the final custom domain URL (https://swiftsportshub.com) and the fallback IC boundary URL, and provide clear instructions to replace placeholders ([FRONTEND_CANISTER_ID], [BACKEND_CANISTER_ID]) and update the status fields after deployment/domain activation.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-4"
         ],
         "quotes": [
-          "also add a chat bot to capture the required sports referees"
+          "Yes"
         ]
       },
       "acceptanceCriteria": [
-        "A chat widget is available on the landing page (e.g., floating button) and can be opened/closed without navigating away.",
-        "The chatbot flow collects at minimum: sport, number of officials required, date (or date/time), location, competition level, and the requester’s name + phone or email.",
-        "The user can review and submit the captured information at the end of the chat flow.",
-        "After submission, the UI shows a clear success confirmation and a reference identifier (or timestamp) for the request.",
-        "User-facing text in the chatbot is in English."
+        "frontend/LIVE_URLS.md clearly describes both the custom domain URL and the fallback IC boundary URL format.",
+        "frontend/LIVE_URLS.md includes explicit instructions for maintainers to replace canister ID placeholders and update status fields after deployment."
       ]
     },
     {
-      "id": "REQ-6",
-      "text": "Persist submitted chatbot lead-capture requests in the Motoko backend so they are not lost on refresh, and expose backend methods to create and list submitted requests for internal verification/testing.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "add a chat bot to capture the required sports referees"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Backend defines a stable data structure to store submitted referee requests (including all fields collected by the chatbot plus createdAt).",
-        "Frontend submission calls the backend to store the request and handles errors gracefully (shows an error state if submission fails).",
-        "Backend exposes at least one query method that returns the list of stored requests (for developer/internal verification).",
-        "No additional backend canisters/services are introduced; all logic remains in backend/main.mo (single-actor architecture)."
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "text": "Strengthen site marketing copy (headlines, subheadlines, service descriptions, and CTAs) to be more conversion-focused and attention-grabbing while staying accurate for a sports officials provider.",
+      "id": "REQ-3",
+      "text": "Ensure all absolute URL generation in the frontend that may reference the public site domain uses the centralized utility in frontend/src/utils/publicSiteBaseUrl.ts (and thus respects VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com) rather than hardcoding swiftsportshub.com or using window.location.origin directly.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-4"
         ],
         "quotes": [
-          "also add best marketing lines ... to grab atentation"
+          "Yes"
         ]
       },
       "acceptanceCriteria": [
-        "Hero section headline/subheadline and CTA labels are updated with stronger marketing language (English).",
-        "Services and/or process section copy is refreshed with clearer benefits and outcomes (e.g., reliability, certified officials, fast replacements).",
-        "Contact section copy encourages action and aligns with the updated contact details.",
-        "All updated copy remains consistent in tone and does not introduce new product offerings not present on the site."
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "text": "Add attention-grabbing marketing images to the landing page and integrate them as static assets (not served from the backend), ensuring they match the existing SwiftSport branding and overall theme.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "and images to grab atentation"
-        ]
-      },
-      "acceptanceCriteria": [
-        "New images are added under frontend/public/assets/generated and are referenced directly by the frontend.",
-        "At least one prominent image is displayed in/near the hero section, and at least one supporting image is displayed in another section (e.g., services/process/contact).",
-        "Images are responsive (look good on mobile and desktop) and do not cause layout shift issues.",
-        "All images have appropriate alt text in English."
+        "No frontend code introduces new hardcoded references to swiftsportshub.com for absolute URL generation when getPublicSiteBaseUrl()/getPublicSiteHostname() would be appropriate.",
+        "The build-time override VITE_PUBLIC_SITE_BASE_URL continues to be the documented mechanism for setting the production public domain."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files under frontend/src/components/ui or any paths listed as immutable in SYSTEM_CONTEXT.",
-    "Do not introduce third-party chatbot services or external databases; store lead-capture submissions using the existing single Motoko actor backend.",
-    "Keep all user-facing text in English."
+    "Do not edit files under frontend/src/components/ui (read-only).",
+    "Do not edit frontend/src/hooks/useInternetIdentity.ts(x), frontend/src/hooks/useActor.ts, or frontend/src/main.tsx (immutable paths).",
+    "Keep all backend logic in the single Motoko actor (backend/main.mo); introduce backend/migration.mo only if state upgrades are required."
   ],
   "nonGoals": [
-    "Integrating external live chat providers (Intercom, Drift, WhatsApp, etc.).",
-    "Real-time chat with human agents.",
-    "Sending emails/SMS automatically from the backend.",
-    "Adding multi-page admin dashboards for managing leads (beyond basic list/query for verification)."
+    "Performing or automating the actual DNS registrar changes for swiftsportshub.com (documentation and configuration guidance only).",
+    "Adding new product features unrelated to custom domain connection and deployment documentation."
   ],
   "imageRequirements": {
-    "required": [
-      "Hero marketing image: dynamic sports officiating scene illustration/photo-style with modern sporty lighting (swiftsport-hero.dim_1600x900.png)",
-      "Supporting section image: referee whistle + clipboard / match readiness visual, clean modern style (swiftsport-support-1.dim_1200x800.png)",
-      "Chatbot avatar/mascot icon: friendly sports-official themed assistant, flat vector style, transparent background (swiftsport-chatbot-avatar.dim_256x256.png)"
-    ],
+    "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

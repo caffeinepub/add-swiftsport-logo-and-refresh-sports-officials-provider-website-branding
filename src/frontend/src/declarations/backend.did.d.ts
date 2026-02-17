@@ -10,22 +10,37 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
-export interface Entry { 'submitted' : boolean, 'data' : LeadCaptureRequest }
-export interface LeadCaptureRequest {
+export interface RefereeBookingRequest {
   'name' : string,
-  'jobSeeker' : boolean,
-  'internInterest' : boolean,
+  'email' : string,
+  'message' : string,
   'phone' : string,
-  'foundingInterest' : boolean,
-  'investor' : boolean,
 }
+export interface UserProfile {
+  'name' : string,
+  'email' : string,
+  'phone' : string,
+}
+export type UserRole = { 'admin' : null } |
+  { 'user' : null } |
+  { 'guest' : null };
 export interface _SERVICE {
-  'createLeadCaptureRequest' : ActorMethod<
-    [string, string, string, boolean, boolean, boolean, boolean],
+  '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
+  'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
+  'getAllRequests' : ActorMethod<[], Array<RefereeBookingRequest>>,
+  'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
+  'getCallerUserRole' : ActorMethod<[], UserRole>,
+  'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
+  'isCallerAdmin' : ActorMethod<[], boolean>,
+  'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'submitBookingRequest' : ActorMethod<
+    [string, string, string, string],
     undefined
   >,
-  'getAllRequests' : ActorMethod<[], Array<[string, Entry]>>,
-  'isSubmitted' : ActorMethod<[string], boolean>,
+  'submitQuickRequest' : ActorMethod<
+    [string, string, string, string],
+    undefined
+  >,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

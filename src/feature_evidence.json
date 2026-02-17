@@ -2,82 +2,43 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-all-displayed-and-linked-contact-details-across-the-site-to-use-email-swiftsports1512-gmail-com-and-phone-number-8431680623-including-mailto-and-tel-links-copy-to-clipboard-values-and-any-prefilled-email-actions",
-      "featureTitle": "Update all displayed and linked contact details across the site to use email swiftsports1512@gmail.com and phone number 8431680623 (including mailto: and tel: links, copy-to-clipboard values, and any prefilled email actions).",
+      "featureId": "feature-update-frontend-live-urls-md-so-it-can-be-used-as-the-single-source-of-truth-after-going-live-document-the-final-custom-domain-url-https-swiftsportshub-com-and-the-fallback-ic-boundary-url-and-provide-clear-instructions-to-replace-placeholders-frontend-canister-id-backend-canister-id-and-update-the-status-fields-after-deployment-domain-activation",
+      "featureTitle": "Update frontend/LIVE_URLS.md so it can be used as the single source of truth after going live: document the final custom domain URL (https://swiftsportshub.com) and the fallback IC boundary URL, and provide clear instructions to replace placeholders ([FRONTEND_CANISTER_ID], [BACKEND_CANISTER_ID]) and update the status fields after deployment/domain activation.",
       "files": [
-        "frontend/src/components/layout/SiteFooter.tsx",
-        "frontend/src/components/marketing/ContactLeadSection.tsx"
+        "frontend/LIVE_URLS.md"
       ],
       "components": [
         "core-infrastructure@1.0.2",
         "shadcn-ui@1.0.0",
         "build-template-react@1.0.0",
         "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
       ],
       "testIds": [
-        "REQ-4"
+        "REQ-2"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-an-on-site-chatbot-style-lead-capture-ui-that-collects-sports-referee-requirements-e-g-sport-number-of-referees-officials-needed-date-time-location-competition-level-and-requester-contact-details-and-allows-the-user-to-submit-the-request",
-      "featureTitle": "Add an on-site chatbot-style lead-capture UI that collects sports referee requirements (e.g., sport, number of referees/officials needed, date/time, location, competition level, and requester contact details) and allows the user to submit the request.",
+      "featureId": "feature-ensure-all-absolute-url-generation-in-the-frontend-that-may-reference-the-public-site-domain-uses-the-centralized-utility-in-frontend-src-utils-publicsitebaseurl-ts-and-thus-respects-vite-public-site-base-url-https-swiftsportshub-com-rather-than-hardcoding-swiftsportshub-com-or-using-window-location-origin-directly",
+      "featureTitle": "Ensure all absolute URL generation in the frontend that may reference the public site domain uses the centralized utility in frontend/src/utils/publicSiteBaseUrl.ts (and thus respects VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com) rather than hardcoding swiftsportshub.com or using window.location.origin directly.",
       "files": [
-        "frontend/src/components/lead/ChatbotLeadWidget.tsx",
-        "frontend/src/index.css",
-        "frontend/src/pages/LandingPage.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-5"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-strengthen-site-marketing-copy-headlines-subheadlines-service-descriptions-and-ctas-to-be-more-conversion-focused-and-attention-grabbing-while-staying-accurate-for-a-sports-officials-provider",
-      "featureTitle": "Strengthen site marketing copy (headlines, subheadlines, service descriptions, and CTAs) to be more conversion-focused and attention-grabbing while staying accurate for a sports officials provider.",
-      "files": [
+        "frontend/index.html",
         "frontend/src/components/marketing/ContactLeadSection.tsx",
-        "frontend/src/components/marketing/HeroSection.tsx",
-        "frontend/src/components/marketing/ProcessSection.tsx",
-        "frontend/src/components/marketing/ServicesSection.tsx"
+        "frontend/src/utils/publicSiteBaseUrl.ts",
+        "frontend/src/utils/urlParams.ts"
       ],
       "components": [
         "core-infrastructure@1.0.2",
         "shadcn-ui@1.0.0",
         "build-template-react@1.0.0",
         "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
       ],
       "testIds": [
-        "REQ-7"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-attention-grabbing-marketing-images-to-the-landing-page-and-integrate-them-as-static-assets-not-served-from-the-backend-ensuring-they-match-the-existing-swiftsport-branding-and-overall-theme",
-      "featureTitle": "Add attention-grabbing marketing images to the landing page and integrate them as static assets (not served from the backend), ensuring they match the existing SwiftSport branding and overall theme.",
-      "files": [
-        "frontend/src/components/lead/ChatbotLeadWidget.tsx",
-        "frontend/src/components/marketing/HeroSection.tsx",
-        "frontend/src/components/marketing/ServicesSection.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-8"
+        "REQ-3"
       ],
       "confidence": "high"
     }

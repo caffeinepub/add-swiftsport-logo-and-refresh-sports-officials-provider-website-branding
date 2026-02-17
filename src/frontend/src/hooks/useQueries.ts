@@ -10,6 +10,19 @@ export interface RefereeRequest {
   dateTime: string;
   location: string;
   competitionLevel: string;
+  numberOfDaysEvent: number;
+  eventType: 'Corporate' | 'Community' | 'School/College';
+}
+
+export interface QuickRequest {
+  name: string;
+  email: string;
+  phone: string;
+  sport: string;
+  gameDate: string;
+  numberOfReferees: number;
+  eventType: 'Corporate' | 'Community' | 'School/College';
+  notes: string;
 }
 
 export function useSubmitRefereeRequest() {
@@ -20,17 +33,52 @@ export function useSubmitRefereeRequest() {
     mutationFn: async (request: RefereeRequest) => {
       if (!actor) throw new Error('Actor not initialized');
       
-      // Note: Backend currently has a different schema (jobSeeker, investor, etc.)
-      // This will need backend update to properly store referee requests
-      // For now, we'll use the existing method with adapted fields
-      await actor.createLeadCaptureRequest(
+      // Build the message with all request details including event type
+      const message = `
+Event Type: ${request.eventType}
+Sport: ${request.sport}
+Number of Referees: ${request.numberOfOfficials}
+Date & Time: ${new Date(request.dateTime).toLocaleString()}
+Location: ${request.location}
+Competition Level: ${request.competitionLevel}
+Number of Days Event: ${request.numberOfDaysEvent}
+      `.trim();
+
+      await actor.submitBookingRequest(
         request.email,
         request.name,
         request.phone,
-        false, // jobSeeker - not used
-        false, // foundingInterest - not used
-        false, // investor - not used
-        false  // internInterest - not used
+        message
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['referee-requests'] });
+    },
+  });
+}
+
+export function useSubmitQuickRequest() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (request: QuickRequest) => {
+      if (!actor) throw new Error('Actor not initialized');
+      
+      // Build the message with quick request details including event type
+      const message = `
+Event Type: ${request.eventType}
+Sport: ${request.sport}
+Number of Referees: ${request.numberOfReferees}
+Game Date: ${request.gameDate}
+Notes: ${request.notes || 'None'}
+      `.trim();
+
+      await actor.submitQuickRequest(
+        request.name,
+        request.phone,
+        request.email,
+        message
       );
     },
     onSuccess: () => {
@@ -47,6 +95,19 @@ export function useGetAllRefereeRequests() {
     queryFn: async () => {
       if (!actor) return [];
       return actor.getAllRequests();
+    },
+    enabled: !!actor && !isFetching,
+  });
+}
+
+export function useIsCallerAdmin() {
+  const { actor, isFetching } = useActor();
+
+  return useQuery({
+    queryKey: ['is-admin'],
+    queryFn: async () => {
+      if (!actor) return false;
+      return actor.isCallerAdmin();
     },
     enabled: !!actor && !isFetching,
   });

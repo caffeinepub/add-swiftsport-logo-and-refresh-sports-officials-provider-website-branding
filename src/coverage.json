@@ -1,113 +1,65 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-13T17:41:53.968Z",
+  "generatedAt": "2026-02-17T08:20:36.542Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 5,
-    "implemented": 4,
+    "total": 3,
+    "implemented": 2,
     "items": [
       {
-        "id": "REQ-4",
-        "summary": "Update all displayed and linked contact details across the site to use email swiftsports1512@gmail.com and phone number 8431680623 (including mailto: and tel: links, copy-to-clipboard values, and any prefilled email actions).",
-        "status": "implemented",
+        "id": "REQ-1",
+        "summary": "Fix and complete the mainnet + custom domain deployment documentation in frontend/DEPLOYMENT.md by replacing the broken/unfinished code fence with a fully formatted, step-by-step guide that includes: deploying backend+frontend to IC mainnet, where/how to set VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com, and the steps needed to connect the custom domain swiftsportshub.com (DNS + IC domain configuration) so the site is reachable at https://swiftsportshub.com.",
+        "status": "missing",
         "plannedFiles": [
-          "frontend/src/components/marketing/ContactLeadSection.tsx",
-          "frontend/src/components/layout/SiteFooter.tsx"
+          "frontend/DEPLOYMENT.md"
         ],
-        "matchedFiles": [
-          "frontend/src/components/marketing/ContactLeadSection.tsx",
-          "frontend/src/components/layout/SiteFooter.tsx"
-        ]
-      },
-      {
-        "id": "REQ-5",
-        "summary": "Add an on-site chatbot-style lead-capture UI that collects sports referee requirements (e.g., sport, number of referees/officials needed, date/time, location, competition level, and requester contact details) and allows the user to submit the request.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/lead/ChatbotLeadWidget.tsx",
-          "frontend/src/pages/LandingPage.tsx",
-          "frontend/src/index.css"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/lead/ChatbotLeadWidget.tsx",
-          "frontend/src/pages/LandingPage.tsx",
-          "frontend/src/index.css"
-        ]
-      },
-      {
-        "id": "REQ-6",
-        "summary": "Persist submitted chatbot lead-capture requests in the Motoko backend so they are not lost on refresh, and expose backend methods to create and list submitted requests for internal verification/testing.",
-        "status": "unknown",
-        "plannedFiles": [],
         "matchedFiles": []
       },
       {
-        "id": "REQ-7",
-        "summary": "Strengthen site marketing copy (headlines, subheadlines, service descriptions, and CTAs) to be more conversion-focused and attention-grabbing while staying accurate for a sports officials provider.",
+        "id": "REQ-2",
+        "summary": "Update frontend/LIVE_URLS.md so it can be used as the single source of truth after going live: document the final custom domain URL (https://swiftsportshub.com) and the fallback IC boundary URL, and provide clear instructions to replace placeholders ([FRONTEND_CANISTER_ID], [BACKEND_CANISTER_ID]) and update the status fields after deployment/domain activation.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/marketing/HeroSection.tsx",
-          "frontend/src/components/marketing/ServicesSection.tsx",
-          "frontend/src/components/marketing/ProcessSection.tsx",
-          "frontend/src/components/marketing/ContactLeadSection.tsx"
+          "frontend/LIVE_URLS.md"
         ],
         "matchedFiles": [
-          "frontend/src/components/marketing/HeroSection.tsx",
-          "frontend/src/components/marketing/ServicesSection.tsx",
-          "frontend/src/components/marketing/ProcessSection.tsx",
-          "frontend/src/components/marketing/ContactLeadSection.tsx"
+          "frontend/LIVE_URLS.md"
         ]
       },
       {
-        "id": "REQ-8",
-        "summary": "Add attention-grabbing marketing images to the landing page and integrate them as static assets (not served from the backend), ensuring they match the existing SwiftSport branding and overall theme.",
+        "id": "REQ-3",
+        "summary": "Ensure all absolute URL generation in the frontend that may reference the public site domain uses the centralized utility in frontend/src/utils/publicSiteBaseUrl.ts (and thus respects VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com) rather than hardcoding swiftsportshub.com or using window.location.origin directly.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/assets/generated/swiftsport-hero.dim_1600x900.png",
-          "frontend/public/assets/generated/swiftsport-support-1.dim_1200x800.png",
-          "frontend/public/assets/generated/swiftsport-chatbot-avatar.dim_256x256.png",
-          "frontend/src/components/marketing/HeroSection.tsx",
-          "frontend/src/components/marketing/ServicesSection.tsx",
-          "frontend/src/components/lead/ChatbotLeadWidget.tsx"
+          "frontend/src/utils/publicSiteBaseUrl.ts",
+          "frontend/src/components/layout/SiteFooter.tsx",
+          "frontend/src/components/marketing/ContactLeadSection.tsx",
+          "frontend/src/utils/urlParams.ts",
+          "frontend/index.html"
         ],
         "matchedFiles": [
-          "frontend/public/assets/generated/swiftsport-hero.dim_1600x900.png",
-          "frontend/public/assets/generated/swiftsport-support-1.dim_1200x800.png",
-          "frontend/public/assets/generated/swiftsport-chatbot-avatar.dim_256x256.png",
-          "frontend/src/components/marketing/HeroSection.tsx",
-          "frontend/src/components/marketing/ServicesSection.tsx",
-          "frontend/src/components/lead/ChatbotLeadWidget.tsx"
+          "frontend/src/utils/publicSiteBaseUrl.ts",
+          "frontend/src/components/marketing/ContactLeadSection.tsx",
+          "frontend/src/utils/urlParams.ts",
+          "frontend/index.html"
         ]
       }
     ]
   },
   "changedFiles": [
-    "backend/main.mo",
     "build-request.json",
-    "build-template/README.md",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/swiftsport-chatbot-avatar.dim_256x256.png",
-    "frontend/public/assets/generated/swiftsport-hero.dim_1600x900.png",
-    "frontend/public/assets/generated/swiftsport-support-1.dim_1200x800.png",
-    "frontend/src/backend.d.ts",
-    "frontend/src/backend.ts",
-    "frontend/src/components/layout/SiteFooter.tsx",
-    "frontend/src/components/lead/ChatbotLeadWidget.tsx",
+    "frontend/LIVE_URLS.md",
+    "frontend/index.html",
     "frontend/src/components/marketing/ContactLeadSection.tsx",
-    "frontend/src/components/marketing/HeroSection.tsx",
-    "frontend/src/components/marketing/ProcessSection.tsx",
-    "frontend/src/components/marketing/ServicesSection.tsx",
-    "frontend/src/declarations/backend.did.d.ts",
-    "frontend/src/declarations/backend.did.js",
-    "frontend/src/hooks/useQueries.ts",
-    "frontend/src/index.css",
-    "frontend/src/pages/LandingPage.tsx",
+    "frontend/src/utils/publicSiteBaseUrl.ts",
+    "frontend/src/utils/urlParams.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

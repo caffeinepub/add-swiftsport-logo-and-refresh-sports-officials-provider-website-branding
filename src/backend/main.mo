@@ -1,41 +1,80 @@
 import Map "mo:core/Map";
+import List "mo:core/List";
 import Iter "mo:core/Iter";
 import Text "mo:core/Text";
+import Principal "mo:core/Principal";
 import Runtime "mo:core/Runtime";
+import MixinAuthorization "authorization/MixinAuthorization";
+import AccessControl "authorization/access-control";
 
 actor {
-  public type LeadCaptureRequest = {
+  let accessControlState = AccessControl.initState();
+  include MixinAuthorization(accessControlState);
+
+  public type UserProfile = {
+    name : Text;
+    email : Text;
+    phone : Text;
+  };
+
+  public type RefereeBookingRequest = {
     name : Text;
     phone : Text;
-    jobSeeker : Bool;
-    foundingInterest : Bool;
-    investor : Bool;
-    internInterest : Bool;
+    email : Text;
+    message : Text;
   };
 
-  type Entry = {
-    submitted : Bool;
-    data : LeadCaptureRequest;
-  };
+  let userProfiles = Map.empty<Principal, UserProfile>();
+  let requests = List.empty<RefereeBookingRequest>();
 
-  let requests = Map.empty<Text, Entry>();
-
-  public query ({ caller }) func isSubmitted(email : Text) : async Bool {
-    switch (requests.get(email)) {
-      case (?request) { request.submitted };
-      case (null) { Runtime.trap("Request not found") };
+  public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can access profiles");
     };
+    userProfiles.get(caller);
   };
 
-  public shared ({ caller }) func createLeadCaptureRequest(email : Text, name : Text, phone : Text, jobSeeker : Bool, foundingInterest : Bool, investor : Bool, internInterest : Bool) : async () {
-    let entry = {
-      submitted = true;
-      data = { name; phone; jobSeeker; foundingInterest; investor; internInterest };
+  public query ({ caller }) func getUserProfile(user : Principal) : async ?UserProfile {
+    if (caller != user and not AccessControl.isAdmin(accessControlState, caller)) {
+      Runtime.trap("Unauthorized: Can only view your own profile");
     };
-    requests.add(email, entry);
+    userProfiles.get(user);
   };
 
-  public query ({ caller }) func getAllRequests() : async [(Text, Entry)] {
+  public shared ({ caller }) func saveCallerUserProfile(profile : UserProfile) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can save profiles");
+    };
+    userProfiles.add(caller, profile);
+  };
+
+  public shared ({ caller }) func submitBookingRequest(email : Text, name : Text, phone : Text, message : Text) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can submit booking requests");
+    };
+    let newRequest = {
+      name;
+      phone;
+      email;
+      message;
+    };
+    requests.add(newRequest);
+  };
+
+  public shared ({ caller }) func submitQuickRequest(name : Text, phone : Text, email : Text, message : Text) : async () {
+    let newRequest = {
+      name;
+      phone;
+      email;
+      message;
+    };
+    requests.add(newRequest);
+  };
+
+  public query ({ caller }) func getAllRequests() : async [RefereeBookingRequest] {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can view all booking requests");
+    };
     requests.toArray();
   };
 };

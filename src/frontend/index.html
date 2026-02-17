@@ -5,6 +5,40 @@
         <link rel='icon' type='image/png' href='/assets/generated/swiftsport-favicon.dim_64x64.png' />
         <title>SwiftSport - Professional Sports Officials Provider</title>
         <meta name='description' content='SwiftSport provides professional sports officials for your games and events. Quality referees, umpires, and officials when you need them.' />
+        <!-- 
+          ========================================
+          DEPLOYMENT & PUBLIC URL CONFIGURATION
+          ========================================
+          
+          For complete mainnet deployment instructions, see: frontend/DEPLOYMENT.md
+          For recording live production URLs, see: frontend/LIVE_URLS.md
+          
+          CUSTOM DOMAIN CONFIGURATION:
+          When deploying to production with the custom domain swiftsportshub.com,
+          you MUST set the VITE_PUBLIC_SITE_BASE_URL environment variable during build:
+          
+          VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com dfx deploy frontend --network ic
+          
+          This ensures all absolute URLs (footer attribution, share links, etc.) use
+          the custom domain instead of the IC boundary URL.
+          
+          IMPORTANT - URL GENERATION BEST PRACTICES:
+          - Always use the centralized utility: frontend/src/utils/publicSiteBaseUrl.ts
+          - Import: getPublicSiteBaseUrl() or getPublicSiteHostname()
+          - DO NOT hardcode "swiftsportshub.com" in component code
+          - DO NOT use window.location.origin for public-facing absolute URLs
+          - The utility automatically normalizes URLs (removes trailing slashes, validates protocol)
+          
+          Example usage:
+          import { getPublicSiteBaseUrl, getPublicSiteHostname } from '@/utils/publicSiteBaseUrl';
+          const siteUrl = getPublicSiteBaseUrl(); // "https://swiftsportshub.com"
+          const hostname = getPublicSiteHostname(); // "swiftsportshub.com"
+          
+          This approach ensures:
+          - Consistent URL generation across the application
+          - Easy switching between staging/production environments
+          - Proper custom domain support without code changes
+        -->
     </head>
     <body>
         <div id='root'></div>

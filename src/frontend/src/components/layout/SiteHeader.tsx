@@ -1,9 +1,11 @@
 import { Logo } from '../branding/Logo';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Shield } from 'lucide-react';
 import { useState } from 'react';
+import { useIsCallerAdmin } from '@/hooks/useQueries';
 
 export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: isAdmin, isLoading: isAdminLoading } = useIsCallerAdmin();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -41,6 +43,15 @@ export function SiteHeader() {
           >
             Contact
           </button>
+          {!isAdminLoading && isAdmin && (
+            <button
+              onClick={() => scrollToSection('admin-requests')}
+              className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors flex items-center gap-1"
+            >
+              <Shield size={16} />
+              Admin
+            </button>
+          )}
           <button
             onClick={() => scrollToSection('contact')}
             className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-colors"
@@ -81,6 +92,15 @@ export function SiteHeader() {
             >
               Contact
             </button>
+            {!isAdminLoading && isAdmin && (
+              <button
+                onClick={() => scrollToSection('admin-requests')}
+                className="text-left text-sm font-medium text-foreground/80 hover:text-foreground transition-colors flex items-center gap-1"
+              >
+                <Shield size={16} />
+                Admin
+              </button>
+            )}
             <button
               onClick={() => scrollToSection('contact')}
               className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-colors"

@@ -7,20 +7,30 @@ export interface None {
     __kind__: "None";
 }
 export type Option<T> = Some<T> | None;
-export interface LeadCaptureRequest {
+export interface RefereeBookingRequest {
     name: string;
-    jobSeeker: boolean;
-    internInterest: boolean;
+    email: string;
+    message: string;
     phone: string;
-    foundingInterest: boolean;
-    investor: boolean;
 }
-export interface Entry {
-    submitted: boolean;
-    data: LeadCaptureRequest;
+export interface UserProfile {
+    name: string;
+    email: string;
+    phone: string;
+}
+export enum UserRole {
+    admin = "admin",
+    user = "user",
+    guest = "guest"
 }
 export interface backendInterface {
-    createLeadCaptureRequest(email: string, name: string, phone: string, jobSeeker: boolean, foundingInterest: boolean, investor: boolean, internInterest: boolean): Promise<void>;
-    getAllRequests(): Promise<Array<[string, Entry]>>;
-    isSubmitted(email: string): Promise<boolean>;
+    assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
+    getAllRequests(): Promise<Array<RefereeBookingRequest>>;
+    getCallerUserProfile(): Promise<UserProfile | null>;
+    getCallerUserRole(): Promise<UserRole>;
+    getUserProfile(user: Principal): Promise<UserProfile | null>;
+    isCallerAdmin(): Promise<boolean>;
+    saveCallerUserProfile(profile: UserProfile): Promise<void>;
+    submitBookingRequest(email: string, name: string, phone: string, message: string): Promise<void>;
+    submitQuickRequest(name: string, phone: string, email: string, message: string): Promise<void>;
 }

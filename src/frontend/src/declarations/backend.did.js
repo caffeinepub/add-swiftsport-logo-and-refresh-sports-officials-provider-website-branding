@@ -8,61 +8,95 @@
 
 import { IDL } from '@icp-sdk/core/candid';
 
-export const LeadCaptureRequest = IDL.Record({
-  'name' : IDL.Text,
-  'jobSeeker' : IDL.Bool,
-  'internInterest' : IDL.Bool,
-  'phone' : IDL.Text,
-  'foundingInterest' : IDL.Bool,
-  'investor' : IDL.Bool,
+export const UserRole = IDL.Variant({
+  'admin' : IDL.Null,
+  'user' : IDL.Null,
+  'guest' : IDL.Null,
 });
-export const Entry = IDL.Record({
-  'submitted' : IDL.Bool,
-  'data' : LeadCaptureRequest,
+export const RefereeBookingRequest = IDL.Record({
+  'name' : IDL.Text,
+  'email' : IDL.Text,
+  'message' : IDL.Text,
+  'phone' : IDL.Text,
+});
+export const UserProfile = IDL.Record({
+  'name' : IDL.Text,
+  'email' : IDL.Text,
+  'phone' : IDL.Text,
 });
 
 export const idlService = IDL.Service({
-  'createLeadCaptureRequest' : IDL.Func(
-      [IDL.Text, IDL.Text, IDL.Text, IDL.Bool, IDL.Bool, IDL.Bool, IDL.Bool],
-      [],
-      [],
-    ),
-  'getAllRequests' : IDL.Func(
-      [],
-      [IDL.Vec(IDL.Tuple(IDL.Text, Entry))],
+  '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
+  'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+  'getAllRequests' : IDL.Func([], [IDL.Vec(RefereeBookingRequest)], ['query']),
+  'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+  'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+  'getUserProfile' : IDL.Func(
+      [IDL.Principal],
+      [IDL.Opt(UserProfile)],
       ['query'],
     ),
-  'isSubmitted' : IDL.Func([IDL.Text], [IDL.Bool], ['query']),
+  'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+  'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+  'submitBookingRequest' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Text, IDL.Text],
+      [],
+      [],
+    ),
+  'submitQuickRequest' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Text, IDL.Text],
+      [],
+      [],
+    ),
 });
 
 export const idlInitArgs = [];
 
 export const idlFactory = ({ IDL }) => {
-  const LeadCaptureRequest = IDL.Record({
-    'name' : IDL.Text,
-    'jobSeeker' : IDL.Bool,
-    'internInterest' : IDL.Bool,
-    'phone' : IDL.Text,
-    'foundingInterest' : IDL.Bool,
-    'investor' : IDL.Bool,
+  const UserRole = IDL.Variant({
+    'admin' : IDL.Null,
+    'user' : IDL.Null,
+    'guest' : IDL.Null,
   });
-  const Entry = IDL.Record({
-    'submitted' : IDL.Bool,
-    'data' : LeadCaptureRequest,
+  const RefereeBookingRequest = IDL.Record({
+    'name' : IDL.Text,
+    'email' : IDL.Text,
+    'message' : IDL.Text,
+    'phone' : IDL.Text,
+  });
+  const UserProfile = IDL.Record({
+    'name' : IDL.Text,
+    'email' : IDL.Text,
+    'phone' : IDL.Text,
   });
   
   return IDL.Service({
-    'createLeadCaptureRequest' : IDL.Func(
-        [IDL.Text, IDL.Text, IDL.Text, IDL.Bool, IDL.Bool, IDL.Bool, IDL.Bool],
-        [],
-        [],
-      ),
+    '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
+    'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
     'getAllRequests' : IDL.Func(
         [],
-        [IDL.Vec(IDL.Tuple(IDL.Text, Entry))],
+        [IDL.Vec(RefereeBookingRequest)],
         ['query'],
       ),
-    'isSubmitted' : IDL.Func([IDL.Text], [IDL.Bool], ['query']),
+    'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+    'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+    'getUserProfile' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Opt(UserProfile)],
+        ['query'],
+      ),
+    'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+    'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+    'submitBookingRequest' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Text],
+        [],
+        [],
+      ),
+    'submitQuickRequest' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Text],
+        [],
+        [],
+      ),
   });
 };
 
