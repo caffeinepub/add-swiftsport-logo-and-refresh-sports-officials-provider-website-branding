@@ -11,7 +11,7 @@ type ChatStep =
   | 'welcome'
   | 'sport'
   | 'date'
-  | 'numberOfReferees'
+  | 'numberOfOfficials'
   | 'eventType'
   | 'location'
   | 'competitionLevel'
@@ -168,7 +168,7 @@ export function ChatbotLeadWidget() {
                 Back
               </Button>
               <Button 
-                onClick={() => setCurrentStep('numberOfReferees')} 
+                onClick={() => setCurrentStep('numberOfOfficials')} 
                 disabled={!formData.dateTime}
                 className="flex-1"
               >
@@ -178,7 +178,7 @@ export function ChatbotLeadWidget() {
           </div>
         );
 
-      case 'numberOfReferees':
+      case 'numberOfOfficials':
         return (
           <div className="space-y-4">
             <div className="flex items-start gap-3">
@@ -191,12 +191,12 @@ export function ChatbotLeadWidget() {
               </div>
               <div className="flex-1 space-y-2">
                 <div className="bg-secondary rounded-lg p-3">
-                  <p className="text-sm">How many referees do you need?</p>
+                  <p className="text-sm">How many officials do you need?</p>
                 </div>
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="numberOfOfficials">Number of Referees *</Label>
+              <Label htmlFor="numberOfOfficials">Number of Officials Required *</Label>
               <Input
                 id="numberOfOfficials"
                 type="number"
@@ -257,7 +257,7 @@ export function ChatbotLeadWidget() {
               </Select>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setCurrentStep('numberOfReferees')} className="flex-1">
+              <Button variant="outline" onClick={() => setCurrentStep('numberOfOfficials')} className="flex-1">
                 Back
               </Button>
               <Button 
@@ -475,27 +475,39 @@ export function ChatbotLeadWidget() {
 
       case 'submitting':
         return (
-          <div className="space-y-4 text-center py-8">
-            <div className="flex justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <img 
+                  src="/assets/generated/swiftsport-chatbot-avatar.dim_256x256.png" 
+                  alt="SwiftSport Assistant"
+                  className="w-6 h-6 rounded-full"
+                />
+              </div>
+              <div className="flex-1 space-y-2">
+                <div className="bg-secondary rounded-lg p-3">
+                  <p className="text-sm">Submitting your request...</p>
+                </div>
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground">Submitting your request...</p>
           </div>
         );
 
       case 'success':
         return (
-          <div className="space-y-4 text-center py-8">
-            <div className="flex justify-center">
-              <div className="rounded-full bg-primary/10 p-4">
-                <CheckCircle size={48} className="text-primary" />
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <CheckCircle size={20} className="text-primary" />
               </div>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold text-lg">Request Submitted!</h3>
-              <p className="text-sm text-muted-foreground">
-                Thank you! We've received your request and will contact you shortly to confirm the details.
-              </p>
+              <div className="flex-1 space-y-2">
+                <div className="bg-primary/10 rounded-lg p-3">
+                  <p className="text-sm font-medium">Request Submitted Successfully!</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    We've received your request and will contact you within 24 hours. Thank you for choosing SwiftSport!
+                  </p>
+                </div>
+              </div>
             </div>
             <Button onClick={resetChat} className="w-full">
               Submit Another Request
@@ -505,17 +517,19 @@ export function ChatbotLeadWidget() {
 
       case 'error':
         return (
-          <div className="space-y-4 text-center py-8">
-            <div className="flex justify-center">
-              <div className="rounded-full bg-destructive/10 p-4">
-                <AlertCircle size={48} className="text-destructive" />
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center">
+                <AlertCircle size={20} className="text-destructive" />
               </div>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold text-lg">Submission Failed</h3>
-              <p className="text-sm text-muted-foreground">
-                We couldn't submit your request. Please try again or contact us directly.
-              </p>
+              <div className="flex-1 space-y-2">
+                <div className="bg-destructive/10 rounded-lg p-3">
+                  <p className="text-sm font-medium text-destructive">Submission Failed</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    We couldn't submit your request. Please try again or contact us directly at swiftsports1512@gmail.com
+                  </p>
+                </div>
+              </div>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" onClick={resetChat} className="flex-1">
@@ -539,7 +553,7 @@ export function ChatbotLeadWidget() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-chatbot hover:scale-110 transition-transform"
+          className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-primary text-primary-foreground rounded-full shadow-chatbot hover:scale-110 transition-transform"
           aria-label="Open chat"
         >
           <MessageCircle size={24} />
@@ -548,34 +562,32 @@ export function ChatbotLeadWidget() {
 
       {/* Chat Widget */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-full max-w-md">
-          <div className="bg-card border rounded-xl shadow-chatbot overflow-hidden">
-            {/* Header */}
-            <div className="bg-primary text-primary-foreground p-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <img 
-                  src="/assets/generated/swiftsport-chatbot-avatar.dim_256x256.png" 
-                  alt="SwiftSport Assistant"
-                  className="w-8 h-8 rounded-full"
-                />
-                <div>
-                  <h3 className="font-semibold">SwiftSport Assistant</h3>
-                  <p className="text-xs opacity-90">Online</p>
-                </div>
+        <div className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] bg-card border rounded-xl shadow-chatbot flex flex-col overflow-hidden">
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 border-b bg-primary text-primary-foreground">
+            <div className="flex items-center gap-3">
+              <img 
+                src="/assets/generated/swiftsport-chatbot-avatar.dim_256x256.png" 
+                alt="SwiftSport Assistant"
+                className="w-8 h-8 rounded-full"
+              />
+              <div>
+                <h3 className="font-semibold text-sm">SwiftSport Assistant</h3>
+                <p className="text-xs opacity-90">Online now</p>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="hover:bg-primary-foreground/20 rounded-full p-1 transition-colors"
-                aria-label="Close chat"
-              >
-                <X size={20} />
-              </button>
             </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="hover:bg-primary-foreground/10 rounded p-1 transition-colors"
+              aria-label="Close chat"
+            >
+              <X size={20} />
+            </button>
+          </div>
 
-            {/* Chat Content */}
-            <div className="p-4 max-h-[500px] overflow-y-auto">
-              {renderStepContent()}
-            </div>
+          {/* Chat Content */}
+          <div className="flex-1 p-4 overflow-y-auto max-h-[500px]">
+            {renderStepContent()}
           </div>
         </div>
       )}

@@ -1,56 +1,63 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "SwiftSport Hub - Website Version 8 label + metadata",
+  "title": "Gate admin requests view and prevent non-admin request fetching in SwiftSport Hub",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Add build-time configurable site version (default 8) and display an unobtrusive “Version X” label in the footer.",
+      "summary": "Render the Requests Review section only after the current caller is confirmed to be an admin to prevent non-admin fetch errors on the landing page.",
       "acceptanceCriteria": [
-        "A build-time env var (e.g., VITE_SITE_VERSION) controls the displayed site version, and when unset the UI defaults to showing version 8.",
-        "The site footer displays a small, unobtrusive label such as \"Version 8\" (English text).",
-        "The version label renders correctly in both light and dark mode and on mobile + desktop widths."
+        "When a non-admin user loads the landing page, the admin Requests Review section is not shown and no request-fetch error banner appears.",
+        "When an admin user loads the landing page, the Requests Review section is shown and requests are fetched/displayed.",
+        "The header Admin navigation link remains visible only for admins (no regression)."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/utils/siteVersion.ts",
-          "operation": "create",
-          "description": "Create a small utility that reads the build-time env var VITE_SITE_VERSION and returns a normalized display value, defaulting to \"8\" when missing/blank."
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "modify",
+          "description": "Use the authorization-backed admin detection hook (useIsCallerAdmin) to conditionally render the QuickRequestsAdminView only when admin status is determined and true, so non-admin visitors never mount the admin section. Verify the component's usage instructions before implementing."
         },
         {
-          "path": "frontend/src/components/layout/SiteFooter.tsx",
+          "path": "frontend/src/components/layout/SiteHeader.tsx",
           "operation": "modify",
-          "description": "Import the site version utility and render a small, unobtrusive \"Version {X}\" label in the footer (styled using existing Tailwind tokens like text-muted-foreground so it works in light/dark modes and responsive layouts)."
+          "description": "Confirm the Admin navigation button remains gated by confirmed admin status (avoid showing while admin status is unknown/loading) to prevent regression of admin-only visibility. Verify the component's usage instructions before implementing."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Expose the active site version in HTML document metadata without altering existing canonical/social URL logic tied to VITE_PUBLIC_SITE_BASE_URL.",
+      "summary": "Ensure getAllRequests() is only executed after admin status is known and true by gating the React Query requests query.",
       "acceptanceCriteria": [
-        "The HTML document includes a machine-readable version indicator (e.g., a meta tag like <meta name=\"application-version\" ...> or equivalent) reflecting the same version shown in the UI.",
-        "No changes break or remove the existing runtime canonical/OpenGraph/Twitter URL updating logic that uses VITE_PUBLIC_SITE_BASE_URL."
+        "`getAllRequests()` is not called unless admin status has been determined and is true.",
+        "React Query no longer enters an error state for the requests query on non-admin sessions.",
+        "Admin sessions can still refresh/reload and successfully refetch requests."
       ],
       "file_operations": [
         {
-          "path": "frontend/index.html",
+          "path": "frontend/src/hooks/useQueries.ts",
           "operation": "modify",
-          "description": "Add a machine-readable version meta tag (e.g., name=\"application-version\") and set its content using the same build-time VITE_SITE_VERSION value with a safe default of \"8\" when not provided. Ensure the existing runtime canonical/OpenGraph/Twitter URL updating logic using VITE_PUBLIC_SITE_BASE_URL remains intact and unchanged in behavior."
+          "description": "Update the admin requests query hook to support an explicit enabled condition (or a dedicated admin-only hook) so actor.getAllRequests() runs only when admin status is confirmed true (and actor is ready), preventing non-admin/anonymous calls. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/admin/QuickRequestsAdminView.tsx",
+          "operation": "modify",
+          "description": "Integrate useIsCallerAdmin into the admin requests view and pass an admin-only enabled flag into the requests query so getAllRequests() is never invoked for non-admins; keep the existing shadcn-ui Card/Button UI structure without modifying files under frontend/src/components/ui. Verify the component's usage instructions before implementing."
         }
       ]
     },
     {
-      "id": "REQ-3",
-      "summary": "Update deployment documentation to explain how to set (and later change) the site version via env var, including default behavior.",
+      "id": "REQ-4",
+      "summary": "Improve admin requests error handling with clearer English messages, safe diagnostic details, and an actionable hint about caffeineAdminToken when access is denied.",
       "acceptanceCriteria": [
-        "frontend/DEPLOYMENT.md (or the most appropriate existing deployment doc) includes a short section showing the exact command format to deploy with the version env var set (example includes Version 8).",
-        "Docs explicitly state what the default version is when the env var is not provided."
+        "If access is denied, the UI displays an 'Access Denied' message and includes a hint that admin access requires the `caffeineAdminToken` URL parameter (do not display any actual secret token value).",
+        "If another error happens (e.g., network/canister call failure), the UI displays a general failure message and also shows the raw error message text in a secondary/diagnostic line for troubleshooting.",
+        "User-facing text remains in English."
       ],
       "file_operations": [
         {
-          "path": "frontend/DEPLOYMENT.md",
+          "path": "frontend/src/components/admin/QuickRequestsAdminView.tsx",
           "operation": "modify",
-          "description": "Add a short section documenting VITE_SITE_VERSION (defaulting to 8 when unset) and include an explicit example deploy command showing VITE_SITE_VERSION=8, plus a note on how to change it later by rebuilding/redeploying with a different value."
+          "description": "Enhance the shadcn-ui Card-based error state to (1) detect access-denied cases and show an 'Access Denied' message plus a hint about requiring the caffeineAdminToken URL parameter (no token values), and (2) for other errors show a general failure message plus a secondary diagnostic line with the raw error message text (safely rendered as plain text). Verify the component's usage instructions before implementing."
         }
       ]
     }

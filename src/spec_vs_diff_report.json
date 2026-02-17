@@ -1,49 +1,27 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T20:09:10.256Z",
-  "summary": "Implemented a build-time configurable site version utility defaulting to \"8\" and began integrating it into the footer and HTML metadata. Deployment documentation changes are present but truncated in the diff, so required version-setting instructions cannot be verified.",
+  "generatedAt": "2026-02-17T20:31:49.868Z",
+  "summary": "Frontend gating and query enabling for the admin Requests Review section appears implemented, along with improved admin-view error messaging. However, the backend does not include the required `isCallerAdmin` query method even though the frontend now calls `actor.isCallerAdmin()`, which would likely cause method-missing errors and break admin detection.",
   "missing_requirements": [
     {
-      "id": "REQ-2",
-      "requirement": "Expose the active website version in the document metadata reflecting the same version shown in the UI (including defaulting to 8 when unset).",
-      "reason": "The diff shows a meta tag using the literal placeholder `%VITE_SITE_VERSION%`, but does not show any confirmed runtime/build fallback to \"8\" in the actual HTML output when the env var is unset (the runtime script that might do this is truncated). Therefore it’s not verifiable from the provided diff that metadata will correctly reflect the default version.",
-      "evidence": [
-        "frontend/index.html"
-      ]
-    },
-    {
       "id": "REQ-3",
-      "requirement": "Update deployment documentation to show how to set the website version via env var (example includes Version 8) and explicitly state the default when not provided.",
-      "reason": "`frontend/DEPLOYMENT.md` is shown only up to the beginning of “Basic Deployment” and does not include any visible section/commands about `VITE_SITE_VERSION` or the default behavior. Because the relevant part is not present in the diff snippet, the requirement cannot be confirmed as implemented.",
+      "requirement": "Ensure the backend actor exposes a stable admin-check method used by the frontend (`isCallerAdmin`) that returns a boolean without trapping, so the frontend can reliably gate admin-only UI and queries.",
+      "reason": "Frontend now calls `actor.isCallerAdmin()` via `useIsCallerAdmin`, but `backend/main.mo` does not define any public `isCallerAdmin : async Bool` query method in the shown diff. This would prevent reliable admin detection and could trigger method-missing/throwing behavior.",
       "evidence": [
-        "frontend/DEPLOYMENT.md"
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts"
       ]
     }
   ],
-  "hallucinated_features": [
-    {
-      "description": "Added/modified project tracking metadata file `project_state.json` with feature request entries unrelated to the requested site-version display/metadata/docs changes.",
-      "reason": "The BuildRequest does not request adding or changing any project state tracking JSON file.",
-      "evidence": [
-        "project_state.json"
-      ]
-    },
-    {
-      "description": "Modified/maintained `frontend-file-summaries.txt` describing many unrelated feature changes (GA4 analytics, marketing copy updates, chatbot changes, Tailwind/theme changes, etc.).",
-      "reason": "The BuildRequest only asks for site version display, metadata exposure, and deployment documentation updates; maintaining an auxiliary summary file (and documenting unrelated changes within it) is not requested.",
-      "evidence": [
-        "frontend-file-summaries.txt"
-      ]
-    }
-  ],
-  "confidence": 0.62,
+  "hallucinated_features": [],
+  "confidence": 0.74,
   "changed_files": [
+    "backend/main.mo",
     "frontend-file-summaries.txt",
-    "frontend/DEPLOYMENT.md",
-    "frontend/index.html",
-    "frontend/src/components/layout/SiteFooter.tsx",
-    "frontend/src/utils/siteVersion.ts",
+    "frontend/src/components/admin/QuickRequestsAdminView.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/LandingPage.tsx",
     "project_state.json"
   ]
 }

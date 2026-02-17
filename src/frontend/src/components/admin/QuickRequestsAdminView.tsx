@@ -1,4 +1,4 @@
-import { useGetAllRefereeRequests } from '@/hooks/useQueries';
+import { useGetAllRefereeRequests, useIsCallerAdmin } from '@/hooks/useQueries';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Copy, Check, AlertCircle, Loader2, Mail, Phone, User } from 'lucide-react';
@@ -6,7 +6,8 @@ import { useState } from 'react';
 import type { RefereeBookingRequest } from '@/backend';
 
 export function QuickRequestsAdminView() {
-  const { data: requests, isLoading, error } = useGetAllRefereeRequests();
+  const { data: isAdmin, isLoading: isAdminLoading } = useIsCallerAdmin();
+  const { data: requests, isLoading: requestsLoading, error } = useGetAllRefereeRequests(isAdmin === true);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   const copyEmailDetails = async (request: RefereeBookingRequest, index: number) => {
@@ -30,6 +31,8 @@ ${request.message}`;
     }
   };
 
+  const isLoading = isAdminLoading || requestsLoading;
+
   if (isLoading) {
     return (
       <section id="admin-requests" className="py-20 bg-muted/30">
@@ -47,7 +50,7 @@ ${request.message}`;
 
   if (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    const isUnauthorized = errorMessage.includes('Unauthorized') || errorMessage.includes('Only admins');
+    const isUnauthorized = errorMessage.includes('Unauthorized') || errorMessage.includes('Only admins') || errorMessage.includes('Access denied');
 
     return (
       <section id="admin-requests" className="py-20 bg-muted/30">
@@ -59,10 +62,24 @@ ${request.message}`;
                   <AlertCircle size={24} />
                   {isUnauthorized ? 'Access Denied' : 'Error Loading Requests'}
                 </CardTitle>
-                <CardDescription>
-                  {isUnauthorized 
-                    ? 'You do not have permission to view this section. Only administrators can access stored requests.'
-                    : 'Failed to load requests. Please try again later or contact support.'}
+                <CardDescription className="space-y-2">
+                  {isUnauthorized ? (
+                    <>
+                      <p>You do not have permission to view this section. Only administrators can access stored requests.</p>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        Admin access requires the <code className="bg-muted px-1 py-0.5 rounded">caffeineAdminToken</code> URL parameter.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p>Failed to load requests. Please try again later or contact support.</p>
+                      {errorMessage && (
+                        <p className="text-xs text-muted-foreground mt-2 font-mono">
+                          Error details: {errorMessage}
+                        </p>
+                      )}
+                    </>
+                  )}
                 </CardDescription>
               </CardHeader>
             </Card>

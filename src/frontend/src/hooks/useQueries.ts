@@ -19,8 +19,9 @@ export interface QuickRequest {
   email: string;
   phone: string;
   sport: string;
-  gameDate: string;
-  numberOfReferees: number;
+  gameDateFrom: string;
+  gameDateTo: string;
+  numberOfOfficials: number | string;
   eventType: 'Corporate' | 'Community' | 'School/College';
   notes: string;
 }
@@ -37,7 +38,7 @@ export function useSubmitRefereeRequest() {
       const message = `
 Event Type: ${request.eventType}
 Sport: ${request.sport}
-Number of Referees: ${request.numberOfOfficials}
+Number of Officials Required: ${request.numberOfOfficials}
 Date & Time: ${new Date(request.dateTime).toLocaleString()}
 Location: ${request.location}
 Competition Level: ${request.competitionLevel}
@@ -62,15 +63,16 @@ export function useSubmitQuickRequest() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (request: QuickRequest) => {
+    mutationFn: async (request: QuickRequest & { numberOfOfficials: number }) => {
       if (!actor) throw new Error('Actor not initialized');
       
       // Build the message with quick request details including event type
       const message = `
 Event Type: ${request.eventType}
 Sport: ${request.sport}
-Number of Referees: ${request.numberOfReferees}
-Game Date: ${request.gameDate}
+Number of Officials Required: ${request.numberOfOfficials}
+Game Date From: ${request.gameDateFrom}
+Game Date To: ${request.gameDateTo}
 Notes: ${request.notes || 'None'}
       `.trim();
 
@@ -87,7 +89,7 @@ Notes: ${request.notes || 'None'}
   });
 }
 
-export function useGetAllRefereeRequests() {
+export function useGetAllRefereeRequests(isAdminConfirmed: boolean = false) {
   const { actor, isFetching } = useActor();
 
   return useQuery({
@@ -96,7 +98,8 @@ export function useGetAllRefereeRequests() {
       if (!actor) return [];
       return actor.getAllRequests();
     },
-    enabled: !!actor && !isFetching,
+    enabled: !!actor && !isFetching && isAdminConfirmed,
+    retry: false,
   });
 }
 
@@ -110,5 +113,6 @@ export function useIsCallerAdmin() {
       return actor.isCallerAdmin();
     },
     enabled: !!actor && !isFetching,
+    retry: false,
   });
 }

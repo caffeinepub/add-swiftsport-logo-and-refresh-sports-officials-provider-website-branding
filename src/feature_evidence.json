@@ -2,11 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-add-a-configurable-website-version-identifier-set-to-8-and-display-it-in-the-ui-so-the-site-can-be-clearly-identified-as-version-8-of-the-website-the-version-must-be-configurable-via-a-build-time-environment-variable-defaulting-to-8-if-not-set",
-      "featureTitle": "Add a configurable website version identifier set to \"8\" and display it in the UI so the site can be clearly identified as “Version 8 of the website”. The version must be configurable via a build-time environment variable (defaulting to 8 if not set).",
+      "featureId": "feature-prevent-non-admin-visitors-from-triggering-the-admin-requests-fetch-by-conditionally-rendering-the-requests-review-admin-requests-section-only-when-the-current-caller-is-confirmed-to-be-an-admin",
+      "featureTitle": "Prevent non-admin visitors from triggering the admin requests fetch by conditionally rendering the Requests Review (admin requests) section only when the current caller is confirmed to be an admin.",
       "files": [
-        "frontend/src/components/layout/SiteFooter.tsx",
-        "frontend/src/utils/siteVersion.ts"
+        "frontend/src/pages/LandingPage.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -22,10 +21,11 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-expose-the-active-website-version-in-the-document-metadata-to-help-operators-verify-which-version-is-deployed-without-changing-the-public-seo-canonical-url-behavior-for-swiftsportshub-com",
-      "featureTitle": "Expose the active website version in the document metadata to help operators verify which version is deployed (without changing the public SEO/canonical URL behavior for swiftsportshub.com).",
+      "featureId": "feature-update-the-admin-requests-query-logic-so-that-getallrequests-is-only-executed-when-the-caller-is-an-admin-avoid-calling-it-for-anonymous-non-admin-actors",
+      "featureTitle": "Update the admin requests query logic so that `getAllRequests()` is only executed when the caller is an admin (avoid calling it for anonymous/non-admin actors).",
       "files": [
-        "frontend/index.html"
+        "frontend/src/components/admin/QuickRequestsAdminView.tsx",
+        "frontend/src/hooks/useQueries.ts"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -41,10 +41,10 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-update-deployment-documentation-to-include-how-to-set-the-website-version-to-8-and-how-to-change-it-later-during-deployment",
-      "featureTitle": "Update deployment documentation to include how to set the website version to 8 (and how to change it later) during deployment.",
+      "featureId": "feature-improve-error-handling-in-the-admin-requests-ui-so-that-if-an-error-does-occur-for-an-admin-the-ui-shows-a-clear-english-message-plus-the-underlying-error-details-safely-and-provides-an-actionable-hint-for-admins-about-the-required-admin-access-mechanism-url-secret-token-caffeineadmintoken-when-access-is-denied",
+      "featureTitle": "Improve error handling in the admin requests UI so that if an error does occur for an admin, the UI shows a clear, English message plus the underlying error details (safely), and provides an actionable hint for admins about the required admin access mechanism (URL secret token `caffeineAdminToken`) when access is denied.",
       "files": [
-        "frontend/DEPLOYMENT.md"
+        "frontend/src/components/admin/QuickRequestsAdminView.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -55,7 +55,7 @@
         "authorization@4.0.0"
       ],
       "testIds": [
-        "REQ-3"
+        "REQ-4"
       ],
       "confidence": "high"
     }

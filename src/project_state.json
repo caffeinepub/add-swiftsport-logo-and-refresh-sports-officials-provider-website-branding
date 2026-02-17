@@ -3,43 +3,46 @@
   "projectStateVersion": 3,
   "summary": "New project",
   "architectural_notes": [],
-  "known_issues": [],
-  "isFixRequest": false,
+  "known_issues": [
+    "App shows error: \"Failed to load requests. Please try again later or contact support.\" when loading requests."
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-add-a-configurable-website-version-identifier-set-to-8-and-display-it-in-the-ui-so-the-site-can-be-clearly-identified-as-version-8-of-the-website-the-version-must-be-configurable-via-a-build-time-environment-variable-defaulting-to-8-if-not-set",
-      "title": "Add a configurable website version identifier set to \"8\" and display it in the UI so the site can be clearly identified as “Version 8 of the website”. The version must be configurable via a build-time environment variable (defaulting to 8 if not set).",
+      "id": "feature-prevent-non-admin-visitors-from-triggering-the-admin-requests-fetch-by-conditionally-rendering-the-requests-review-admin-requests-section-only-when-the-current-caller-is-confirmed-to-be-an-admin",
+      "title": "Prevent non-admin visitors from triggering the admin requests fetch by conditionally rendering the Requests Review (admin requests) section only when the current caller is confirmed to be an admin.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-expose-the-active-website-version-in-the-document-metadata-to-help-operators-verify-which-version-is-deployed-without-changing-the-public-seo-canonical-url-behavior-for-swiftsportshub-com",
-      "title": "Expose the active website version in the document metadata to help operators verify which version is deployed (without changing the public SEO/canonical URL behavior for swiftsportshub.com).",
+      "id": "feature-update-the-admin-requests-query-logic-so-that-getallrequests-is-only-executed-when-the-caller-is-an-admin-avoid-calling-it-for-anonymous-non-admin-actors",
+      "title": "Update the admin requests query logic so that `getAllRequests()` is only executed when the caller is an admin (avoid calling it for anonymous/non-admin actors).",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-update-deployment-documentation-to-include-how-to-set-the-website-version-to-8-and-how-to-change-it-later-during-deployment",
-      "title": "Update deployment documentation to include how to set the website version to 8 (and how to change it later) during deployment.",
+      "id": "feature-improve-error-handling-in-the-admin-requests-ui-so-that-if-an-error-does-occur-for-an-admin-the-ui-shows-a-clear-english-message-plus-the-underlying-error-details-safely-and-provides-an-actionable-hint-for-admins-about-the-required-admin-access-mechanism-url-secret-token-caffeineadmintoken-when-access-is-denied",
+      "title": "Improve error handling in the admin requests UI so that if an error does occur for an admin, the UI shows a clear, English message plus the underlying error details (safely), and provides an actionable hint for admins about the required admin access mechanism (URL secret token `caffeineAdminToken`) when access is denied.",
       "reqIds": [
-        "REQ-3"
+        "REQ-4"
       ],
       "version": 1
     }
   ],
   "new_feature_requests": [
     {
-      "id": "AR-1",
-      "summary": "Provide/restore website Version 8 (ability to access or roll back to a specific previous version of the website)",
-      "reqIds": [],
+      "id": "AR-3",
+      "summary": "Ensure the backend actor exposes a stable admin-check method used by the frontend (`isCallerAdmin`) that returns a boolean without trapping, so the frontend can reliably gate admin-only UI and queries.",
+      "reqIds": [
+        "REQ-3"
+      ],
       "status": "pending"
     }
   ],
-  "gameProjectType": "none",
   "projectName": "SwiftSport Hub",
   "clarification_mode": "instant",
   "clarification_rounds": 0

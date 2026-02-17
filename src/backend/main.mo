@@ -1,9 +1,8 @@
 import Map "mo:core/Map";
 import List "mo:core/List";
-import Iter "mo:core/Iter";
-import Text "mo:core/Text";
 import Principal "mo:core/Principal";
 import Runtime "mo:core/Runtime";
+import Text "mo:core/Text";
 import MixinAuthorization "authorization/MixinAuthorization";
 import AccessControl "authorization/access-control";
 

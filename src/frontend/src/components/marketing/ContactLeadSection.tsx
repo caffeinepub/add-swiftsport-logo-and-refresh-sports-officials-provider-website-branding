@@ -18,8 +18,9 @@ export function ContactLeadSection() {
     email: '',
     phone: '',
     sport: '',
-    gameDate: '',
-    numberOfReferees: 1,
+    gameDateFrom: '',
+    gameDateTo: '',
+    numberOfOfficials: '',
     eventType: 'Community',
     notes: '',
   });
@@ -69,12 +70,19 @@ export function ContactLeadSection() {
       setValidationError('Please enter the sport');
       return;
     }
-    if (!formData.gameDate) {
-      setValidationError('Please select a game date');
+    if (!formData.gameDateFrom) {
+      setValidationError('Please select a game date from');
       return;
     }
-    if (!formData.numberOfReferees || formData.numberOfReferees < 1) {
-      setValidationError('Please enter at least 1 referee');
+    if (!formData.gameDateTo) {
+      setValidationError('Please select a game date to');
+      return;
+    }
+    const numberOfOfficials = typeof formData.numberOfOfficials === 'string' 
+      ? parseInt(formData.numberOfOfficials) 
+      : formData.numberOfOfficials;
+    if (!formData.numberOfOfficials || isNaN(numberOfOfficials) || numberOfOfficials < 1) {
+      setValidationError('Please enter at least 1 official');
       return;
     }
     if (!formData.eventType) {
@@ -83,13 +91,16 @@ export function ContactLeadSection() {
     }
 
     try {
-      await submitMutation.mutateAsync(formData);
+      await submitMutation.mutateAsync({
+        ...formData,
+        numberOfOfficials: numberOfOfficials,
+      });
       
       // Track successful quick request submission (no PII)
       trackConversion('quick_request', {
         sport: formData.sport,
         event_type: formData.eventType,
-        number_of_referees: formData.numberOfReferees,
+        number_of_officials: numberOfOfficials,
       });
       
       setShowSuccess(true);
@@ -99,8 +110,9 @@ export function ContactLeadSection() {
         email: '',
         phone: '',
         sport: '',
-        gameDate: '',
-        numberOfReferees: 1,
+        gameDateFrom: '',
+        gameDateTo: '',
+        numberOfOfficials: '',
         eventType: 'Community',
         notes: '',
       });
@@ -262,25 +274,40 @@ export function ContactLeadSection() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="gameDate">Game Date *</Label>
-                  <Input
-                    id="gameDate"
-                    type="date"
-                    value={formData.gameDate}
-                    onChange={(e) => setFormData({ ...formData, gameDate: e.target.value })}
-                    disabled={submitMutation.isPending}
-                  />
+                  <Label>Game Date *</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="space-y-1">
+                      <Label htmlFor="gameDateFrom" className="text-xs text-muted-foreground">From</Label>
+                      <Input
+                        id="gameDateFrom"
+                        type="date"
+                        value={formData.gameDateFrom}
+                        onChange={(e) => setFormData({ ...formData, gameDateFrom: e.target.value })}
+                        disabled={submitMutation.isPending}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="gameDateTo" className="text-xs text-muted-foreground">To</Label>
+                      <Input
+                        id="gameDateTo"
+                        type="date"
+                        value={formData.gameDateTo}
+                        onChange={(e) => setFormData({ ...formData, gameDateTo: e.target.value })}
+                        disabled={submitMutation.isPending}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="numberOfReferees">Number of Referees *</Label>
+                  <Label htmlFor="numberOfOfficials">Number of Officials Required *</Label>
                   <Input
-                    id="numberOfReferees"
+                    id="numberOfOfficials"
                     type="number"
                     min="1"
-                    placeholder="1"
-                    value={formData.numberOfReferees}
-                    onChange={(e) => setFormData({ ...formData, numberOfReferees: parseInt(e.target.value) || 1 })}
+                    placeholder="Enter number"
+                    value={formData.numberOfOfficials}
+                    onChange={(e) => setFormData({ ...formData, numberOfOfficials: e.target.value })}
                     disabled={submitMutation.isPending}
                   />
                 </div>

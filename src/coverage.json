@@ -1,61 +1,69 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T20:09:10.258Z",
+  "generatedAt": "2026-02-17T20:31:49.871Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
+    "total": 4,
     "implemented": 3,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Add a configurable website version identifier set to \"8\" and display it in the UI so the site can be clearly identified as “Version 8 of the website”. The version must be configurable via a build-time environment variable (defaulting to 8 if not set).",
+        "summary": "Prevent non-admin visitors from triggering the admin requests fetch by conditionally rendering the Requests Review (admin requests) section only when the current caller is confirmed to be an admin.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/utils/siteVersion.ts",
-          "frontend/src/components/layout/SiteFooter.tsx"
+          "frontend/src/pages/LandingPage.tsx",
+          "frontend/src/components/layout/SiteHeader.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/utils/siteVersion.ts",
-          "frontend/src/components/layout/SiteFooter.tsx"
+          "frontend/src/pages/LandingPage.tsx"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "Expose the active website version in the document metadata to help operators verify which version is deployed (without changing the public SEO/canonical URL behavior for swiftsportshub.com).",
+        "summary": "Update the admin requests query logic so that `getAllRequests()` is only executed when the caller is an admin (avoid calling it for anonymous/non-admin actors).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/index.html"
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/admin/QuickRequestsAdminView.tsx"
         ],
         "matchedFiles": [
-          "frontend/index.html"
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/admin/QuickRequestsAdminView.tsx"
         ]
       },
       {
         "id": "REQ-3",
-        "summary": "Update deployment documentation to include how to set the website version to 8 (and how to change it later) during deployment.",
+        "summary": "Ensure the backend actor exposes a stable admin-check method used by the frontend (`isCallerAdmin`) that returns a boolean without trapping, so the frontend can reliably gate admin-only UI and queries.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Improve error handling in the admin requests UI so that if an error does occur for an admin, the UI shows a clear, English message plus the underlying error details (safely), and provides an actionable hint for admins about the required admin access mechanism (URL secret token `caffeineAdminToken`) when access is denied.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/DEPLOYMENT.md"
+          "frontend/src/components/admin/QuickRequestsAdminView.tsx"
         ],
         "matchedFiles": [
-          "frontend/DEPLOYMENT.md"
+          "frontend/src/components/admin/QuickRequestsAdminView.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/DEPLOYMENT.md",
-    "frontend/index.html",
-    "frontend/src/components/layout/SiteFooter.tsx",
-    "frontend/src/utils/siteVersion.ts",
+    "frontend/src/components/admin/QuickRequestsAdminView.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/LandingPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",
