@@ -7,16 +7,24 @@
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-update-frontend-live-urls-md-so-it-can-be-used-as-the-single-source-of-truth-after-going-live-document-the-final-custom-domain-url-https-swiftsportshub-com-and-the-fallback-ic-boundary-url-and-provide-clear-instructions-to-replace-placeholders-frontend-canister-id-backend-canister-id-and-update-the-status-fields-after-deployment-domain-activation",
-      "title": "Update frontend/LIVE_URLS.md so it can be used as the single source of truth after going live: document the final custom domain URL (https://swiftsportshub.com) and the fallback IC boundary URL, and provide clear instructions to replace placeholders ([FRONTEND_CANISTER_ID], [BACKEND_CANISTER_ID]) and update the status fields after deployment/domain activation.",
+      "id": "feature-add-a-configurable-website-version-identifier-set-to-8-and-display-it-in-the-ui-so-the-site-can-be-clearly-identified-as-version-8-of-the-website-the-version-must-be-configurable-via-a-build-time-environment-variable-defaulting-to-8-if-not-set",
+      "title": "Add a configurable website version identifier set to \"8\" and display it in the UI so the site can be clearly identified as “Version 8 of the website”. The version must be configurable via a build-time environment variable (defaulting to 8 if not set).",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-expose-the-active-website-version-in-the-document-metadata-to-help-operators-verify-which-version-is-deployed-without-changing-the-public-seo-canonical-url-behavior-for-swiftsportshub-com",
+      "title": "Expose the active website version in the document metadata to help operators verify which version is deployed (without changing the public SEO/canonical URL behavior for swiftsportshub.com).",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-ensure-all-absolute-url-generation-in-the-frontend-that-may-reference-the-public-site-domain-uses-the-centralized-utility-in-frontend-src-utils-publicsitebaseurl-ts-and-thus-respects-vite-public-site-base-url-https-swiftsportshub-com-rather-than-hardcoding-swiftsportshub-com-or-using-window-location-origin-directly",
-      "title": "Ensure all absolute URL generation in the frontend that may reference the public site domain uses the centralized utility in frontend/src/utils/publicSiteBaseUrl.ts (and thus respects VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com) rather than hardcoding swiftsportshub.com or using window.location.origin directly.",
+      "id": "feature-update-deployment-documentation-to-include-how-to-set-the-website-version-to-8-and-how-to-change-it-later-during-deployment",
+      "title": "Update deployment documentation to include how to set the website version to 8 (and how to change it later) during deployment.",
       "reqIds": [
         "REQ-3"
       ],
@@ -26,19 +34,12 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Connect a custom domain to the deployed app",
+      "summary": "Provide/restore website Version 8 (ability to access or roll back to a specific previous version of the website)",
       "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-2",
-      "summary": "Fix and complete the mainnet + custom domain deployment documentation in frontend/DEPLOYMENT.md by replacing the broken/unfinished code fence with a fully formatted, step-by-step guide that includes: deploying backend+frontend to IC mainnet, where/how to set VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com, and the steps needed to connect the custom domain swiftsportshub.com (DNS + IC domain configuration) so the site is reachable at https://swiftsportshub.com.",
-      "reqIds": [
-        "REQ-1"
-      ],
       "status": "pending"
     }
   ],
+  "gameProjectType": "none",
   "projectName": "SwiftSport Hub",
   "clarification_mode": "instant",
   "clarification_rounds": 0

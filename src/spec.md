@@ -1,11 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Finalize mainnet + custom domain deployment documentation and ensure the frontend consistently uses a centralized public-site base URL for absolute link generation.
+**Goal:** Clearly identify the site as “Version 8” by showing a configurable website version in the UI, metadata, and deployment docs.
 
 **Planned changes:**
-- Replace the broken/unfinished markdown code fence in `frontend/DEPLOYMENT.md` with a complete, step-by-step guide for deploying backend + frontend to IC mainnet, setting `VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com` (normalized/no trailing slash), and connecting the custom domain `swiftsportshub.com` (DNS + IC-side domain configuration) so the site is reachable at `https://swiftsportshub.com`.
-- Update `frontend/LIVE_URLS.md` to be the single source of truth post-launch by documenting the final custom domain URL and the fallback IC boundary URL, and adding instructions to replace `[FRONTEND_CANISTER_ID]` / `[BACKEND_CANISTER_ID]` placeholders and update status fields after deployment/domain activation.
-- Refactor any frontend absolute URL generation that depends on the public site domain to use `frontend/src/utils/publicSiteBaseUrl.ts` (respecting `VITE_PUBLIC_SITE_BASE_URL`) rather than hardcoding `swiftsportshub.com` or relying on `window.location.origin`.
+- Add a build-time environment variable (defaulting to `8`) to control the displayed site version.
+- Display a small, unobtrusive “Version 8” label in the site footer that renders correctly across light/dark mode and mobile/desktop.
+- Expose the same version value in HTML document metadata via a machine-readable version indicator (e.g., meta tag), without affecting existing canonical/OpenGraph/Twitter URL logic.
+- Update deployment documentation with instructions and an example command showing how to set the version env var (including default behavior when not set).
 
-**User-visible outcome:** Maintainers can follow complete docs to deploy to IC mainnet, configure `swiftsportshub.com` as the production domain, and the app generates absolute URLs based on the configured public site base URL.
+**User-visible outcome:** Visitors can see a subtle “Version 8” label in the footer, and operators can verify the deployed version via document metadata and deployment docs.

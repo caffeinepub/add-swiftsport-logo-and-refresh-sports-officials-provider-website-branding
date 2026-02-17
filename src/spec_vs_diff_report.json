@@ -1,52 +1,49 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T08:20:36.539Z",
-  "summary": "REQ-2 appears implemented via updates to frontend/LIVE_URLS.md. REQ-1 is not evidenced (no DEPLOYMENT.md change shown). REQ-3 is only partially evidenced: the centralized utility is enhanced and documentation/comments were added, but the diff summary does not show frontend-wide refactors away from window.location.origin/hardcoded domains for absolute URL generation. Some unrelated UI/form changes were made.",
+  "generatedAt": "2026-02-17T20:09:10.256Z",
+  "summary": "Implemented a build-time configurable site version utility defaulting to \"8\" and began integrating it into the footer and HTML metadata. Deployment documentation changes are present but truncated in the diff, so required version-setting instructions cannot be verified.",
   "missing_requirements": [
     {
-      "id": "REQ-1",
-      "requirement": "Fix and complete the mainnet + custom domain deployment documentation in frontend/DEPLOYMENT.md (replace broken/unfinished code fence; include step-by-step mainnet deploy, where/how to set VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com, and actionable custom domain DNS + IC-side configuration steps).",
-      "reason": "The diff summary does not show any modification to frontend/DEPLOYMENT.md, so the required documentation fixes and the broken code fence replacement cannot be verified as implemented.",
+      "id": "REQ-2",
+      "requirement": "Expose the active website version in the document metadata reflecting the same version shown in the UI (including defaulting to 8 when unset).",
+      "reason": "The diff shows a meta tag using the literal placeholder `%VITE_SITE_VERSION%`, but does not show any confirmed runtime/build fallback to \"8\" in the actual HTML output when the env var is unset (the runtime script that might do this is truncated). Therefore it’s not verifiable from the provided diff that metadata will correctly reflect the default version.",
       "evidence": [
-        "File diff summary: MODIFIED FILES list does not include frontend/DEPLOYMENT.md"
+        "frontend/index.html"
       ]
     },
     {
       "id": "REQ-3",
-      "requirement": "Ensure all absolute URL generation uses frontend/src/utils/publicSiteBaseUrl.ts rather than hardcoding swiftsportshub.com or using window.location.origin directly.",
-      "reason": "While frontend/src/utils/publicSiteBaseUrl.ts was updated and guidance was added (e.g., comments in index.html and urlParams.ts), the diff summary does not provide evidence that existing absolute URL generation across the frontend was refactored to use this utility (beyond documentation/comments).",
+      "requirement": "Update deployment documentation to show how to set the website version via env var (example includes Version 8) and explicitly state the default when not provided.",
+      "reason": "`frontend/DEPLOYMENT.md` is shown only up to the beginning of “Basic Deployment” and does not include any visible section/commands about `VITE_SITE_VERSION` or the default behavior. Because the relevant part is not present in the diff snippet, the requirement cannot be confirmed as implemented.",
       "evidence": [
-        "frontend/src/utils/publicSiteBaseUrl.ts",
-        "frontend/index.html",
-        "frontend/src/utils/urlParams.ts"
+        "frontend/DEPLOYMENT.md"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Expanded/changed Contact section behavior including a 'Quick Request' form with additional fields, validation, clipboard copy interactions, and success/error messaging.",
-      "reason": "This is a product/UI feature change unrelated to the requested custom domain connection and deployment documentation tasks (explicit non-goal: avoid unrelated product features).",
-      "evidence": [
-        "frontend/src/components/marketing/ContactLeadSection.tsx"
-      ]
-    },
-    {
-      "description": "Updated project tracking metadata (project_state.json) marking/recording feature requests.",
-      "reason": "Not requested by any REQ and not part of deployment docs/custom-domain configuration or URL-centralization requirements.",
+      "description": "Added/modified project tracking metadata file `project_state.json` with feature request entries unrelated to the requested site-version display/metadata/docs changes.",
+      "reason": "The BuildRequest does not request adding or changing any project state tracking JSON file.",
       "evidence": [
         "project_state.json"
       ]
+    },
+    {
+      "description": "Modified/maintained `frontend-file-summaries.txt` describing many unrelated feature changes (GA4 analytics, marketing copy updates, chatbot changes, Tailwind/theme changes, etc.).",
+      "reason": "The BuildRequest only asks for site version display, metadata exposure, and deployment documentation updates; maintaining an auxiliary summary file (and documenting unrelated changes within it) is not requested.",
+      "evidence": [
+        "frontend-file-summaries.txt"
+      ]
     }
   ],
-  "confidence": 0.74,
+  "confidence": 0.62,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/LIVE_URLS.md",
+    "frontend/DEPLOYMENT.md",
     "frontend/index.html",
-    "frontend/src/components/marketing/ContactLeadSection.tsx",
-    "frontend/src/utils/publicSiteBaseUrl.ts",
-    "frontend/src/utils/urlParams.ts",
+    "frontend/src/components/layout/SiteFooter.tsx",
+    "frontend/src/utils/siteVersion.ts",
     "project_state.json"
   ]
 }

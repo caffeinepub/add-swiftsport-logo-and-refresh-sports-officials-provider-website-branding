@@ -1,51 +1,48 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-17T08:20:36.542Z",
+  "generatedAt": "2026-02-17T20:09:10.258Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
     "total": 3,
-    "implemented": 2,
+    "implemented": 3,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Fix and complete the mainnet + custom domain deployment documentation in frontend/DEPLOYMENT.md by replacing the broken/unfinished code fence with a fully formatted, step-by-step guide that includes: deploying backend+frontend to IC mainnet, where/how to set VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com, and the steps needed to connect the custom domain swiftsportshub.com (DNS + IC domain configuration) so the site is reachable at https://swiftsportshub.com.",
-        "status": "missing",
+        "summary": "Add a configurable website version identifier set to \"8\" and display it in the UI so the site can be clearly identified as “Version 8 of the website”. The version must be configurable via a build-time environment variable (defaulting to 8 if not set).",
+        "status": "implemented",
         "plannedFiles": [
-          "frontend/DEPLOYMENT.md"
+          "frontend/src/utils/siteVersion.ts",
+          "frontend/src/components/layout/SiteFooter.tsx"
         ],
-        "matchedFiles": []
+        "matchedFiles": [
+          "frontend/src/utils/siteVersion.ts",
+          "frontend/src/components/layout/SiteFooter.tsx"
+        ]
       },
       {
         "id": "REQ-2",
-        "summary": "Update frontend/LIVE_URLS.md so it can be used as the single source of truth after going live: document the final custom domain URL (https://swiftsportshub.com) and the fallback IC boundary URL, and provide clear instructions to replace placeholders ([FRONTEND_CANISTER_ID], [BACKEND_CANISTER_ID]) and update the status fields after deployment/domain activation.",
+        "summary": "Expose the active website version in the document metadata to help operators verify which version is deployed (without changing the public SEO/canonical URL behavior for swiftsportshub.com).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/LIVE_URLS.md"
+          "frontend/index.html"
         ],
         "matchedFiles": [
-          "frontend/LIVE_URLS.md"
+          "frontend/index.html"
         ]
       },
       {
         "id": "REQ-3",
-        "summary": "Ensure all absolute URL generation in the frontend that may reference the public site domain uses the centralized utility in frontend/src/utils/publicSiteBaseUrl.ts (and thus respects VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com) rather than hardcoding swiftsportshub.com or using window.location.origin directly.",
+        "summary": "Update deployment documentation to include how to set the website version to 8 (and how to change it later) during deployment.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/utils/publicSiteBaseUrl.ts",
-          "frontend/src/components/layout/SiteFooter.tsx",
-          "frontend/src/components/marketing/ContactLeadSection.tsx",
-          "frontend/src/utils/urlParams.ts",
-          "frontend/index.html"
+          "frontend/DEPLOYMENT.md"
         ],
         "matchedFiles": [
-          "frontend/src/utils/publicSiteBaseUrl.ts",
-          "frontend/src/components/marketing/ContactLeadSection.tsx",
-          "frontend/src/utils/urlParams.ts",
-          "frontend/index.html"
+          "frontend/DEPLOYMENT.md"
         ]
       }
     ]
@@ -55,11 +52,10 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/LIVE_URLS.md",
+    "frontend/DEPLOYMENT.md",
     "frontend/index.html",
-    "frontend/src/components/marketing/ContactLeadSection.tsx",
-    "frontend/src/utils/publicSiteBaseUrl.ts",
-    "frontend/src/utils/urlParams.ts",
+    "frontend/src/components/layout/SiteFooter.tsx",
+    "frontend/src/utils/siteVersion.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

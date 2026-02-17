@@ -1,70 +1,71 @@
 {
   "kind": "build_request",
-  "title": "Connect swiftsportshub.com Custom Domain and Finalize Deployment Docs",
+  "title": "Set site to Website Version 8 (display + configurable build version)",
   "projectName": "SwiftSport Hub",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Fix and complete the mainnet + custom domain deployment documentation in frontend/DEPLOYMENT.md by replacing the broken/unfinished code fence with a fully formatted, step-by-step guide that includes: deploying backend+frontend to IC mainnet, where/how to set VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com, and the steps needed to connect the custom domain swiftsportshub.com (DNS + IC domain configuration) so the site is reachable at https://swiftsportshub.com.",
+      "text": "Add a configurable website version identifier set to \"8\" and display it in the UI so the site can be clearly identified as “Version 8 of the website”. The version must be configurable via a build-time environment variable (defaulting to 8 if not set).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-1"
         ],
         "quotes": [
-          "Yes"
+          "version 8 of my website"
         ]
       },
       "acceptanceCriteria": [
-        "frontend/DEPLOYMENT.md contains no broken or unfinished markdown code fences.",
-        "frontend/DEPLOYMENT.md includes explicit instructions to set VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com (noting normalization/no trailing slash).",
-        "frontend/DEPLOYMENT.md includes explicit, actionable steps for custom domain setup for swiftsportshub.com (including DNS records and the IC-side domain configuration steps)."
+        "A build-time env var (e.g., VITE_SITE_VERSION) controls the displayed site version, and when unset the UI defaults to showing version 8.",
+        "The site footer displays a small, unobtrusive label such as \"Version 8\" (English text).",
+        "The version label renders correctly in both light and dark mode and on mobile + desktop widths."
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Update frontend/LIVE_URLS.md so it can be used as the single source of truth after going live: document the final custom domain URL (https://swiftsportshub.com) and the fallback IC boundary URL, and provide clear instructions to replace placeholders ([FRONTEND_CANISTER_ID], [BACKEND_CANISTER_ID]) and update the status fields after deployment/domain activation.",
+      "text": "Expose the active website version in the document metadata to help operators verify which version is deployed (without changing the public SEO/canonical URL behavior for swiftsportshub.com).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-1"
         ],
         "quotes": [
-          "Yes"
+          "version 8 of my website"
         ]
       },
       "acceptanceCriteria": [
-        "frontend/LIVE_URLS.md clearly describes both the custom domain URL and the fallback IC boundary URL format.",
-        "frontend/LIVE_URLS.md includes explicit instructions for maintainers to replace canister ID placeholders and update status fields after deployment."
+        "The HTML document includes a machine-readable version indicator (e.g., a meta tag like <meta name=\"application-version\" ...> or equivalent) reflecting the same version shown in the UI.",
+        "No changes break or remove the existing runtime canonical/OpenGraph/Twitter URL updating logic that uses VITE_PUBLIC_SITE_BASE_URL."
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Ensure all absolute URL generation in the frontend that may reference the public site domain uses the centralized utility in frontend/src/utils/publicSiteBaseUrl.ts (and thus respects VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com) rather than hardcoding swiftsportshub.com or using window.location.origin directly.",
+      "text": "Update deployment documentation to include how to set the website version to 8 (and how to change it later) during deployment.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-1"
         ],
         "quotes": [
-          "Yes"
+          "version 8 of my website"
         ]
       },
       "acceptanceCriteria": [
-        "No frontend code introduces new hardcoded references to swiftsportshub.com for absolute URL generation when getPublicSiteBaseUrl()/getPublicSiteHostname() would be appropriate.",
-        "The build-time override VITE_PUBLIC_SITE_BASE_URL continues to be the documented mechanism for setting the production public domain."
+        "frontend/DEPLOYMENT.md (or the most appropriate existing deployment doc) includes a short section showing the exact command format to deploy with the version env var set (example includes Version 8).",
+        "Docs explicitly state what the default version is when the env var is not provided."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files under frontend/src/components/ui (read-only).",
-    "Do not edit frontend/src/hooks/useInternetIdentity.ts(x), frontend/src/hooks/useActor.ts, or frontend/src/main.tsx (immutable paths).",
-    "Keep all backend logic in the single Motoko actor (backend/main.mo); introduce backend/migration.mo only if state upgrades are required."
+    "Do not modify any files under frontend/src/components/ui or any path listed in frontend.immutablePaths (compose existing UI components instead).",
+    "Backend must remain a single Motoko actor in backend/main.mo; do not introduce additional backend services.",
+    "Do not change the existing public URL configuration behavior (VITE_PUBLIC_SITE_BASE_URL) for canonical/meta URL generation."
   ],
   "nonGoals": [
-    "Performing or automating the actual DNS registrar changes for swiftsportshub.com (documentation and configuration guidance only).",
-    "Adding new product features unrelated to custom domain connection and deployment documentation."
+    "Implementing a true rollback of previously deployed canister WASM or restoring an older on-chain state snapshot from within the app.",
+    "Recreating unknown historical “Version 8” page layout/content from prior deployments beyond adding an explicit Version 8 identifier/configuration.",
+    "Changing the domain configuration or GoDaddy DNS setup steps."
   ],
   "imageRequirements": {
     "required": [],

@@ -1,10 +1,6 @@
 /**
  * Utility functions for parsing and managing URL parameters
  * Works with both hash-based and browser-based routing
- * 
- * Note: This utility focuses on URL parameter extraction and session storage.
- * For generating absolute public URLs, use the centralized utility at
- * frontend/src/utils/publicSiteBaseUrl.ts instead of window.location.origin.
  */
 
 /**

@@ -1,10 +1,12 @@
 import { Logo } from '../branding/Logo';
 import { Mail, Phone, MapPin, Heart } from 'lucide-react';
 import { getPublicSiteHostname } from '@/utils/publicSiteBaseUrl';
+import { getSiteVersion } from '@/utils/siteVersion';
 
 export function SiteFooter() {
   const currentYear = new Date().getFullYear();
   const appIdentifier = encodeURIComponent(getPublicSiteHostname());
+  const siteVersion = getSiteVersion();
 
   return (
     <footer className="border-t bg-muted/30">
@@ -88,7 +90,11 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>© {currentYear} SwiftSport. All rights reserved.</p>
+          <div className="flex items-center gap-3">
+            <p>© {currentYear} SwiftSport. All rights reserved.</p>
+            <span className="hidden md:inline text-muted-foreground/60">•</span>
+            <p className="text-xs text-muted-foreground/80">Version {siteVersion}</p>
+          </div>
           <p className="flex items-center gap-1">
             Built with <Heart size={14} className="text-destructive fill-destructive" /> using{' '}
             <a

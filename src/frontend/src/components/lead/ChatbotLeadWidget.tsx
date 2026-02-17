@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { trackConversion } from '@/utils/analytics/ga4';
 
 type ChatStep = 
   | 'welcome'
@@ -50,6 +51,16 @@ export function ChatbotLeadWidget() {
     setCurrentStep('submitting');
     try {
       await submitMutation.mutateAsync(formData as RefereeRequest);
+      
+      // Track successful chatbot submission (no PII)
+      trackConversion('chatbot_request', {
+        sport: formData.sport,
+        event_type: formData.eventType,
+        number_of_officials: formData.numberOfOfficials,
+        competition_level: formData.competitionLevel,
+        number_of_days: formData.numberOfDaysEvent,
+      });
+      
       setCurrentStep('success');
     } catch (error) {
       console.error('Failed to submit:', error);
@@ -474,19 +485,17 @@ export function ChatbotLeadWidget() {
 
       case 'success':
         return (
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <CheckCircle className="text-primary" size={20} />
+          <div className="space-y-4 text-center py-8">
+            <div className="flex justify-center">
+              <div className="rounded-full bg-primary/10 p-4">
+                <CheckCircle size={48} className="text-primary" />
               </div>
-              <div className="flex-1 space-y-2">
-                <div className="bg-secondary rounded-lg p-3">
-                  <p className="text-sm font-medium">Request Submitted Successfully!</p>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Thank you! We've received your request and will contact you within 24 hours to confirm your referee assignment.
-                  </p>
-                </div>
-              </div>
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-semibold text-lg">Request Submitted!</h3>
+              <p className="text-sm text-muted-foreground">
+                Thank you! We've received your request and will contact you shortly to confirm the details.
+              </p>
             </div>
             <Button onClick={resetChat} className="w-full">
               Submit Another Request
@@ -496,19 +505,17 @@ export function ChatbotLeadWidget() {
 
       case 'error':
         return (
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center">
-                <AlertCircle className="text-destructive" size={20} />
+          <div className="space-y-4 text-center py-8">
+            <div className="flex justify-center">
+              <div className="rounded-full bg-destructive/10 p-4">
+                <AlertCircle size={48} className="text-destructive" />
               </div>
-              <div className="flex-1 space-y-2">
-                <div className="bg-secondary rounded-lg p-3">
-                  <p className="text-sm font-medium">Submission Failed</p>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    We couldn't submit your request. Please try again or contact us directly.
-                  </p>
-                </div>
-              </div>
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-semibold text-lg">Submission Failed</h3>
+              <p className="text-sm text-muted-foreground">
+                We couldn't submit your request. Please try again or contact us directly.
+              </p>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" onClick={resetChat} className="flex-1">
@@ -528,21 +535,21 @@ export function ChatbotLeadWidget() {
 
   return (
     <>
-      {/* Chatbot Button */}
+      {/* Floating Chat Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all hover:scale-110"
+          className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-chatbot hover:scale-110 transition-transform"
           aria-label="Open chat"
         >
           <MessageCircle size={24} />
         </button>
       )}
 
-      {/* Chatbot Panel */}
+      {/* Chat Widget */}
       {isOpen && (
         <div className="fixed bottom-6 right-6 z-50 w-full max-w-md">
-          <div className="bg-card border rounded-lg shadow-2xl overflow-hidden">
+          <div className="bg-card border rounded-xl shadow-chatbot overflow-hidden">
             {/* Header */}
             <div className="bg-primary text-primary-foreground p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -553,19 +560,19 @@ export function ChatbotLeadWidget() {
                 />
                 <div>
                   <h3 className="font-semibold">SwiftSport Assistant</h3>
-                  <p className="text-xs opacity-90">Request Referees</p>
+                  <p className="text-xs opacity-90">Online</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1 hover:bg-primary-foreground/10 rounded transition-colors"
+                className="hover:bg-primary-foreground/20 rounded-full p-1 transition-colors"
                 aria-label="Close chat"
               >
                 <X size={20} />
               </button>
             </div>
 
-            {/* Content */}
+            {/* Chat Content */}
             <div className="p-4 max-h-[500px] overflow-y-auto">
               {renderStepContent()}
             </div>

@@ -2,10 +2,30 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-frontend-live-urls-md-so-it-can-be-used-as-the-single-source-of-truth-after-going-live-document-the-final-custom-domain-url-https-swiftsportshub-com-and-the-fallback-ic-boundary-url-and-provide-clear-instructions-to-replace-placeholders-frontend-canister-id-backend-canister-id-and-update-the-status-fields-after-deployment-domain-activation",
-      "featureTitle": "Update frontend/LIVE_URLS.md so it can be used as the single source of truth after going live: document the final custom domain URL (https://swiftsportshub.com) and the fallback IC boundary URL, and provide clear instructions to replace placeholders ([FRONTEND_CANISTER_ID], [BACKEND_CANISTER_ID]) and update the status fields after deployment/domain activation.",
+      "featureId": "feature-add-a-configurable-website-version-identifier-set-to-8-and-display-it-in-the-ui-so-the-site-can-be-clearly-identified-as-version-8-of-the-website-the-version-must-be-configurable-via-a-build-time-environment-variable-defaulting-to-8-if-not-set",
+      "featureTitle": "Add a configurable website version identifier set to \"8\" and display it in the UI so the site can be clearly identified as “Version 8 of the website”. The version must be configurable via a build-time environment variable (defaulting to 8 if not set).",
       "files": [
-        "frontend/LIVE_URLS.md"
+        "frontend/src/components/layout/SiteFooter.tsx",
+        "frontend/src/utils/siteVersion.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-expose-the-active-website-version-in-the-document-metadata-to-help-operators-verify-which-version-is-deployed-without-changing-the-public-seo-canonical-url-behavior-for-swiftsportshub-com",
+      "featureTitle": "Expose the active website version in the document metadata to help operators verify which version is deployed (without changing the public SEO/canonical URL behavior for swiftsportshub.com).",
+      "files": [
+        "frontend/index.html"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -21,13 +41,10 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-ensure-all-absolute-url-generation-in-the-frontend-that-may-reference-the-public-site-domain-uses-the-centralized-utility-in-frontend-src-utils-publicsitebaseurl-ts-and-thus-respects-vite-public-site-base-url-https-swiftsportshub-com-rather-than-hardcoding-swiftsportshub-com-or-using-window-location-origin-directly",
-      "featureTitle": "Ensure all absolute URL generation in the frontend that may reference the public site domain uses the centralized utility in frontend/src/utils/publicSiteBaseUrl.ts (and thus respects VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com) rather than hardcoding swiftsportshub.com or using window.location.origin directly.",
+      "featureId": "feature-update-deployment-documentation-to-include-how-to-set-the-website-version-to-8-and-how-to-change-it-later-during-deployment",
+      "featureTitle": "Update deployment documentation to include how to set the website version to 8 (and how to change it later) during deployment.",
       "files": [
-        "frontend/index.html",
-        "frontend/src/components/marketing/ContactLeadSection.tsx",
-        "frontend/src/utils/publicSiteBaseUrl.ts",
-        "frontend/src/utils/urlParams.ts"
+        "frontend/DEPLOYMENT.md"
       ],
       "components": [
         "core-infrastructure@1.0.2",

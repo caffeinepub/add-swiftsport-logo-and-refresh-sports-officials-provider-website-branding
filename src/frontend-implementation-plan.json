@@ -1,71 +1,56 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "SwiftSport Hub — Custom Domain Deployment Docs & Public URL Centralization",
+  "title": "SwiftSport Hub - Website Version 8 label + metadata",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Fix and complete mainnet + custom domain deployment documentation for swiftsportshub.com in frontend/DEPLOYMENT.md.",
+      "summary": "Add build-time configurable site version (default 8) and display an unobtrusive “Version X” label in the footer.",
       "acceptanceCriteria": [
-        "frontend/DEPLOYMENT.md contains no broken or unfinished markdown code fences.",
-        "frontend/DEPLOYMENT.md includes explicit instructions to set VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com (noting normalization/no trailing slash).",
-        "frontend/DEPLOYMENT.md includes explicit, actionable steps for custom domain setup for swiftsportshub.com (including DNS records and the IC-side domain configuration steps)."
+        "A build-time env var (e.g., VITE_SITE_VERSION) controls the displayed site version, and when unset the UI defaults to showing version 8.",
+        "The site footer displays a small, unobtrusive label such as \"Version 8\" (English text).",
+        "The version label renders correctly in both light and dark mode and on mobile + desktop widths."
       ],
       "file_operations": [
         {
-          "path": "frontend/DEPLOYMENT.md",
+          "path": "frontend/src/utils/siteVersion.ts",
+          "operation": "create",
+          "description": "Create a small utility that reads the build-time env var VITE_SITE_VERSION and returns a normalized display value, defaulting to \"8\" when missing/blank."
+        },
+        {
+          "path": "frontend/src/components/layout/SiteFooter.tsx",
           "operation": "modify",
-          "description": "Replace the broken/unfinished code fence and rewrite the document into a fully formatted, step-by-step mainnet guide covering: prerequisites; deploy backend+frontend to IC mainnet; where/how to set VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com (explicitly note no trailing slash and that the app normalizes/removes trailing slashes); and a complete custom-domain procedure for swiftsportshub.com including DNS record guidance and the IC-side domain configuration workflow so the site is reachable at https://swiftsportshub.com. Ensure all markdown fences are properly opened/closed."
+          "description": "Import the site version utility and render a small, unobtrusive \"Version {X}\" label in the footer (styled using existing Tailwind tokens like text-muted-foreground so it works in light/dark modes and responsive layouts)."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Make frontend/LIVE_URLS.md the single source of truth for live URLs (custom domain + fallback IC URL) with clear placeholder-replacement and status update instructions.",
+      "summary": "Expose the active site version in HTML document metadata without altering existing canonical/social URL logic tied to VITE_PUBLIC_SITE_BASE_URL.",
       "acceptanceCriteria": [
-        "frontend/LIVE_URLS.md clearly describes both the custom domain URL and the fallback IC boundary URL format.",
-        "frontend/LIVE_URLS.md includes explicit instructions for maintainers to replace canister ID placeholders and update status fields after deployment."
+        "The HTML document includes a machine-readable version indicator (e.g., a meta tag like <meta name=\"application-version\" ...> or equivalent) reflecting the same version shown in the UI.",
+        "No changes break or remove the existing runtime canonical/OpenGraph/Twitter URL updating logic that uses VITE_PUBLIC_SITE_BASE_URL."
       ],
       "file_operations": [
         {
-          "path": "frontend/LIVE_URLS.md",
+          "path": "frontend/index.html",
           "operation": "modify",
-          "description": "Fix the broken/unfinished markdown code fence and revise the document so it clearly records: the final custom domain URL (https://swiftsportshub.com) and the fallback IC boundary URL format; explicit steps to replace [FRONTEND_CANISTER_ID] and [BACKEND_CANISTER_ID]; and clear guidance for updating the Status fields and verification checklist after deployment and after custom-domain activation. Ensure the file is complete and renders correctly as markdown."
+          "description": "Add a machine-readable version meta tag (e.g., name=\"application-version\") and set its content using the same build-time VITE_SITE_VERSION value with a safe default of \"8\" when not provided. Ensure the existing runtime canonical/OpenGraph/Twitter URL updating logic using VITE_PUBLIC_SITE_BASE_URL remains intact and unchanged in behavior."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Centralize absolute public-site URL generation on getPublicSiteBaseUrl()/getPublicSiteHostname() and remove direct domain/window.location.origin usage where inappropriate.",
+      "summary": "Update deployment documentation to explain how to set (and later change) the site version via env var, including default behavior.",
       "acceptanceCriteria": [
-        "No frontend code introduces new hardcoded references to swiftsportshub.com for absolute URL generation when getPublicSiteBaseUrl()/getPublicSiteHostname() would be appropriate.",
-        "The build-time override VITE_PUBLIC_SITE_BASE_URL continues to be the documented mechanism for setting the production public domain."
+        "frontend/DEPLOYMENT.md (or the most appropriate existing deployment doc) includes a short section showing the exact command format to deploy with the version env var set (example includes Version 8).",
+        "Docs explicitly state what the default version is when the env var is not provided."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/utils/publicSiteBaseUrl.ts",
+          "path": "frontend/DEPLOYMENT.md",
           "operation": "modify",
-          "description": "Harden and clarify the centralized public-site URL utility so it remains the single source of truth for absolute URL/hostname generation in production (VITE_PUBLIC_SITE_BASE_URL) with normalization (no trailing slash) and safe fallbacks; add/adjust utility helpers if needed to make it easy for components to construct absolute URLs without using window.location.origin directly."
-        },
-        {
-          "path": "frontend/src/components/layout/SiteFooter.tsx",
-          "operation": "modify",
-          "description": "Audit any absolute URL construction and ensure it derives host/base from the centralized public site utility (getPublicSiteBaseUrl()/getPublicSiteHostname()) rather than window.location.origin or hardcoded domains; update the caffeine.ai attribution/referral link generation to continue respecting VITE_PUBLIC_SITE_BASE_URL via the utility."
-        },
-        {
-          "path": "frontend/src/components/marketing/ContactLeadSection.tsx",
-          "operation": "modify",
-          "description": "Audit for any absolute URL generation (e.g., share links, external links, redirects, or copy-to-clipboard URLs) and refactor to use getPublicSiteBaseUrl()/getPublicSiteHostname() rather than window.location.origin or hardcoded domains, so production uses VITE_PUBLIC_SITE_BASE_URL."
-        },
-        {
-          "path": "frontend/src/utils/urlParams.ts",
-          "operation": "modify",
-          "description": "Audit any logic that reads or constructs absolute URLs (including any persistence/redirect patterns) and ensure public-site absolute URLs are derived via the centralized public site utility instead of window.location.origin, where appropriate, to respect VITE_PUBLIC_SITE_BASE_URL."
-        },
-        {
-          "path": "frontend/index.html",
-          "operation": "modify",
-          "description": "Keep/refresh the maintainer-facing note to reinforce that absolute URLs must be generated via frontend/src/utils/publicSiteBaseUrl.ts and that VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com (no trailing slash) is the build-time production mechanism; ensure wording aligns with the updated deployment docs."
+          "description": "Add a short section documenting VITE_SITE_VERSION (defaulting to 8 when unset) and include an explicit example deploy command showing VITE_SITE_VERSION=8, plus a note on how to change it later by rebuilding/redeploying with a different value."
         }
       ]
     }

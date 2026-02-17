@@ -1,29 +1,17 @@
-# Deploying SwiftSport to IC Mainnet
+# SwiftSport Hub - Mainnet Deployment Guide
 
-This guide walks you through deploying your SwiftSport application to the Internet Computer mainnet with the custom domain **swiftsportshub.com**.
+This guide covers deploying the SwiftSport Hub application to the Internet Computer mainnet with custom domain configuration, analytics setup, and site version management.
 
 ## Prerequisites
 
-Before deploying to mainnet, ensure you have:
+1. **DFX CLI** installed and configured
+2. **Cycles wallet** with sufficient cycles for deployment
+3. **Custom domain** (swiftsportshub.com) DNS access
+4. **Google Analytics 4** Measurement ID (optional, for analytics tracking)
 
-1. **dfx CLI installed** (version 0.15.0 or later)
-   ```bash
-   dfx --version
-   ```
-   If not installed, follow the [official installation guide](https://internetcomputer.org/docs/current/developer-docs/setup/install/).
+## Step 1: Build and Deploy to Mainnet
 
-2. **Cycles wallet configured** for mainnet deployments
-   - Cycles are required to deploy and run canisters on mainnet
-   - You can obtain cycles through the [cycles faucet](https://internetcomputer.org/docs/current/developer-docs/setup/cycles/cycles-faucet) or purchase ICP and convert to cycles
+### Basic Deployment
 
-3. **Identity configured** for mainnet
-   ```bash
-   dfx identity whoami
-   ```
-
-## Deployment Steps
-
-### 1. Build and Deploy to Mainnet
-
-Deploy both backend and frontend canisters to mainnet:
+Deploy without custom domain, analytics, or version configuration:
 

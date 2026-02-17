@@ -1,10 +1,155 @@
+<!DOCTYPE html>
 <html lang='en'>
     <head>
         <meta charset='UTF-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
         <link rel='icon' type='image/png' href='/assets/generated/swiftsport-favicon.dim_64x64.png' />
+        
+        <!-- Application Version -->
+        <meta name='application-version' content='%VITE_SITE_VERSION%' />
+        
+        <!-- Primary Meta Tags -->
         <title>SwiftSport - Professional Sports Officials Provider</title>
         <meta name='description' content='SwiftSport provides professional sports officials for your games and events. Quality referees, umpires, and officials when you need them.' />
+        <meta name='robots' content='index, follow' />
+        
+        <!-- Canonical URL - uses public site base URL configuration -->
+        <link rel='canonical' id='canonical-link' href='https://swiftsportshub.com/' />
+        
+        <!-- Open Graph / Facebook -->
+        <meta property='og:type' content='website' />
+        <meta property='og:url' id='og-url' content='https://swiftsportshub.com/' />
+        <meta property='og:title' content='SwiftSport - Professional Sports Officials Provider' />
+        <meta property='og:description' content='SwiftSport provides professional sports officials for your games and events. Quality referees, umpires, and officials when you need them.' />
+        <meta property='og:image' content='/assets/generated/swiftsport-hero.dim_1600x900.png' />
+        
+        <!-- Twitter -->
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta name='twitter:url' id='twitter-url' content='https://swiftsportshub.com/' />
+        <meta name='twitter:title' content='SwiftSport - Professional Sports Officials Provider' />
+        <meta name='twitter:description' content='SwiftSport provides professional sports officials for your games and events. Quality referees, umpires, and officials when you need them.' />
+        <meta name='twitter:image' content='/assets/generated/swiftsport-hero.dim_1600x900.png' />
+        
+        <!-- JSON-LD Structured Data -->
+        <script type='application/ld+json' id='structured-data'>
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "name": "SwiftSport Hub",
+              "url": "https://swiftsportshub.com",
+              "logo": "https://swiftsportshub.com/assets/generated/swiftsport-logo.dim_512x512.png",
+              "description": "Professional sports officials provider for games and events"
+            },
+            {
+              "@type": "WebSite",
+              "name": "SwiftSport Hub",
+              "url": "https://swiftsportshub.com",
+              "description": "SwiftSport provides professional sports officials for your games and events. Quality referees, umpires, and officials when you need them."
+            }
+          ]
+        }
+        </script>
+        
+        <!-- Runtime URL Configuration Script -->
+        <script>
+          (function() {
+            // Get the configured public site base URL at runtime
+            var envBaseUrl = '%VITE_PUBLIC_SITE_BASE_URL%';
+            var baseUrl = 'https://swiftsportshub.com'; // Default
+            
+            // Check if environment variable was replaced during build
+            if (envBaseUrl && envBaseUrl.indexOf('%') === -1 && envBaseUrl.trim()) {
+              var trimmed = envBaseUrl.trim().replace(/\/+$/, '');
+              try {
+                var testUrl = new URL(trimmed);
+                if (testUrl.protocol === 'http:' || testUrl.protocol === 'https:') {
+                  baseUrl = trimmed;
+                }
+              } catch (e) {
+                // Invalid URL, use default
+              }
+            }
+            
+            // Update canonical link
+            var canonical = document.getElementById('canonical-link');
+            if (canonical) canonical.setAttribute('href', baseUrl + '/');
+            
+            // Update Open Graph URL
+            var ogUrl = document.getElementById('og-url');
+            if (ogUrl) ogUrl.setAttribute('content', baseUrl + '/');
+            
+            // Update Twitter URL
+            var twitterUrl = document.getElementById('twitter-url');
+            if (twitterUrl) twitterUrl.setAttribute('content', baseUrl + '/');
+            
+            // Update structured data
+            var structuredData = document.getElementById('structured-data');
+            if (structuredData) {
+              try {
+                var data = JSON.parse(structuredData.textContent);
+                data['@graph'][0].url = baseUrl;
+                data['@graph'][0].logo = baseUrl + '/assets/generated/swiftsport-logo.dim_512x512.png';
+                data['@graph'][1].url = baseUrl;
+                structuredData.textContent = JSON.stringify(data, null, 2);
+              } catch (e) {
+                // Keep default if parsing fails
+              }
+            }
+          })();
+        </script>
+        
+        <!-- Runtime Version Meta Tag Update Script -->
+        <script>
+          (function() {
+            // Get the configured site version at runtime
+            var envVersion = '%VITE_SITE_VERSION%';
+            var version = '8'; // Default version
+            
+            // Check if environment variable was replaced during build
+            if (envVersion && envVersion.indexOf('%') === -1 && envVersion.trim()) {
+              version = envVersion.trim();
+            }
+            
+            // Update application-version meta tag
+            var versionMeta = document.querySelector('meta[name="application-version"]');
+            if (versionMeta) {
+              versionMeta.setAttribute('content', version);
+            }
+          })();
+        </script>
+        
+        <!-- Google Analytics 4 (GA4) -->
+        <script>
+          (function() {
+            // Get GA4 Measurement ID from environment variable
+            var ga4MeasurementId = '%VITE_GA4_MEASUREMENT_ID%';
+            
+            // Only initialize GA4 if measurement ID is provided and valid
+            if (ga4MeasurementId && 
+                ga4MeasurementId.indexOf('%') === -1 && 
+                ga4MeasurementId.trim() && 
+                ga4MeasurementId.startsWith('G-')) {
+              
+              // Load gtag.js script
+              var script = document.createElement('script');
+              script.async = true;
+              script.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4MeasurementId;
+              document.head.appendChild(script);
+              
+              // Initialize gtag
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', ga4MeasurementId);
+              
+              // Store measurement ID for app usage
+              window.__GA4_MEASUREMENT_ID__ = ga4MeasurementId;
+            }
+          })();
+        </script>
+        
         <!-- 
           ========================================
           DEPLOYMENT & PUBLIC URL CONFIGURATION
@@ -12,6 +157,7 @@
           
           For complete mainnet deployment instructions, see: frontend/DEPLOYMENT.md
           For recording live production URLs, see: frontend/LIVE_URLS.md
+          For SEO and Google Search Console setup, see: frontend/SEO.md
           
           CUSTOM DOMAIN CONFIGURATION:
           When deploying to production with the custom domain swiftsportshub.com,
@@ -19,8 +165,21 @@
           
           VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com dfx deploy frontend --network ic
           
-          This ensures all absolute URLs (footer attribution, share links, etc.) use
+          This ensures all absolute URLs (footer attribution, share links, SEO meta tags, etc.) use
           the custom domain instead of the IC boundary URL.
+          
+          ANALYTICS CONFIGURATION:
+          To enable Google Analytics 4 tracking, set the VITE_GA4_MEASUREMENT_ID environment variable:
+          
+          VITE_GA4_MEASUREMENT_ID=G-XXXXXXXXXX dfx deploy frontend --network ic
+          
+          SITE VERSION CONFIGURATION:
+          To set the site version displayed in the footer and metadata, use VITE_SITE_VERSION:
+          
+          VITE_SITE_VERSION=8 dfx deploy frontend --network ic
+          
+          Or combine all environment variables:
+          VITE_PUBLIC_SITE_BASE_URL=https://swiftsportshub.com VITE_GA4_MEASUREMENT_ID=G-XXXXXXXXXX VITE_SITE_VERSION=8 dfx deploy frontend --network ic
           
           IMPORTANT - URL GENERATION BEST PRACTICES:
           - Always use the centralized utility: frontend/src/utils/publicSiteBaseUrl.ts

@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { trackConversion } from '@/utils/analytics/ga4';
 
 export function ContactLeadSection() {
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -83,6 +84,14 @@ export function ContactLeadSection() {
 
     try {
       await submitMutation.mutateAsync(formData);
+      
+      // Track successful quick request submission (no PII)
+      trackConversion('quick_request', {
+        sport: formData.sport,
+        event_type: formData.eventType,
+        number_of_referees: formData.numberOfReferees,
+      });
+      
       setShowSuccess(true);
       // Clear form
       setFormData({
@@ -280,7 +289,9 @@ export function ContactLeadSection() {
                   <Label htmlFor="eventType">Event Type *</Label>
                   <Select
                     value={formData.eventType}
-                    onValueChange={(value) => setFormData({ ...formData, eventType: value as 'Corporate' | 'Community' | 'School/College' })}
+                    onValueChange={(value: 'Corporate' | 'Community' | 'School/College') => 
+                      setFormData({ ...formData, eventType: value })
+                    }
                     disabled={submitMutation.isPending}
                   >
                     <SelectTrigger id="eventType">
@@ -299,36 +310,36 @@ export function ContactLeadSection() {
                   <Textarea
                     id="notes"
                     placeholder="Any special requirements or details..."
-                    rows={3}
                     value={formData.notes}
                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                     disabled={submitMutation.isPending}
+                    rows={3}
                   />
                 </div>
 
                 {validationError && (
-                  <div className="flex items-center gap-2 text-sm text-destructive">
+                  <div className="flex items-center gap-2 text-destructive text-sm">
                     <AlertCircle size={16} />
                     <span>{validationError}</span>
                   </div>
                 )}
 
                 {showSuccess && (
-                  <div className="flex items-center gap-2 text-sm text-primary bg-primary/10 p-3 rounded-lg">
+                  <div className="flex items-center gap-2 text-primary text-sm bg-primary/10 p-3 rounded-lg">
                     <CheckCircle size={16} />
                     <span>Request submitted successfully! We'll contact you soon.</span>
                   </div>
                 )}
 
                 {showError && (
-                  <div className="flex items-center gap-2 text-sm text-destructive bg-destructive/10 p-3 rounded-lg">
+                  <div className="flex items-center gap-2 text-destructive text-sm bg-destructive/10 p-3 rounded-lg">
                     <AlertCircle size={16} />
                     <span>Failed to submit request. Please try again or contact us directly.</span>
                   </div>
                 )}
 
-                <Button
-                  type="submit"
+                <Button 
+                  type="submit" 
                   className="w-full"
                   disabled={submitMutation.isPending}
                 >
